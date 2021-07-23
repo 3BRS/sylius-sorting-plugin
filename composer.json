@@ -1,5 +1,5 @@
 {
-	"name": "mangoweb-sylius/sylius-sorting-plugin",
+	"name": "3brs/sylius-sorting-plugin",
 	"type": "sylius-plugin",
 	"description": "Sorting plugin for Sylius",
 	"license": "MIT",
