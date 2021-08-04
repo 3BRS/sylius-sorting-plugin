@@ -4,13 +4,13 @@ services:
         autoconfigure: false
         public: false
 
-    MangoSylius\SortingPlugin\Menu\SortingMenuBuilder:
+    ThreeBRS\SortingPlugin\Menu\SortingMenuBuilder:
         tags:
             - name: kernel.event_listener
               event: sylius.menu.admin.main
               method: buildMenu
 
-    MangoSylius\SortingPlugin\Controller\SortingController:
+    ThreeBRS\SortingPlugin\Controller\SortingController:
         public: true
         arguments:
             $templatingEngine: '@templating'

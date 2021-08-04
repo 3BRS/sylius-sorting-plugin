@@ -42,8 +42,8 @@
 	"prefer-stable": true,
 	"autoload": {
 		"psr-4": {
-			"MangoSylius\\SortingPlugin\\": "src/",
-			"Tests\\MangoSylius\\SortingPlugin\\": "tests/"
+			"ThreeBRS\\SortingPlugin\\": "src/",
+			"Tests\\ThreeBRS\\SortingPlugin\\": "tests/"
 		}
 	},
 	"autoload-dev": {
