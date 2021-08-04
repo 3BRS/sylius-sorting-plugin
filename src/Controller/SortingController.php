@@ -23,33 +23,26 @@ class SortingController
 {
 	/** @var EngineInterface */
 	private $templatingEngine;
-	/**
-	 * @var TaxonRepositoryInterface
-	 */
+
+	/** @var TaxonRepositoryInterface */
 	private $taxonRepository;
-	/**
-	 * @var ProductTaxonRepositoryInterface
-	 */
+
+	/** @var ProductTaxonRepositoryInterface */
 	private $productTaxonRepository;
-	/**
-	 * @var EntityManagerInterface
-	 */
+
+	/** @var EntityManagerInterface */
 	private $entityManager;
-	/**
-	 * @var EventDispatcherInterface
-	 */
+
+	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
-	/**
-	 * @var RouterInterface
-	 */
+
+	/** @var RouterInterface */
 	private $router;
-	/**
-	 * @var FlashBagInterface
-	 */
+
+	/** @var FlashBagInterface */
 	private $flashBag;
-	/**
-	 * @var TranslatorInterface
-	 */
+
+	/** @var TranslatorInterface */
 	private $translator;
 
 	public function __construct(

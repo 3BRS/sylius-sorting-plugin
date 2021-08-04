@@ -87,8 +87,7 @@ final class Kernel extends BaseKernel
 
 	protected function getContainerLoader(ContainerInterface $container): LoaderInterface
 	{
-		/** @var ContainerBuilder $container */
-		Assert::isInstanceOf($container, ContainerBuilder::class);
+		assert($container instanceof ContainerBuilder);
 
 		$locator = new FileLocator($this, $this->getRootDir() . '/Resources');
 		$resolver = new LoaderResolver([

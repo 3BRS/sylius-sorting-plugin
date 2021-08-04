@@ -12,17 +12,13 @@ use Tests\MangoSylius\SortingPlugin\Behat\Pages\Admin\Sorting\SortingPageInterfa
 
 final class ManagingSortingContext implements Context
 {
-	/**
-	 * @var SortingPageInterface
-	 */
+	/** @var SortingPageInterface */
 	private $sortingPage;
-	/**
-	 * @var NotificationCheckerInterface
-	 */
+
+	/** @var NotificationCheckerInterface */
 	private $notificationChecker;
-	/**
-	 * @var TaxonRepositoryInterface
-	 */
+
+	/** @var TaxonRepositoryInterface */
 	private $taxonRepository;
 
 	public function __construct(
