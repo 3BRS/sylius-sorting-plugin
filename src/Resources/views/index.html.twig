@@ -5,31 +5,31 @@
 {% import '@SyliusAdmin/Macro/breadcrumb.html.twig' as breadcrumb %}
 {% import '@SyliusUi/Macro/messages.html.twig' as messages %}
 
-{% block title %}{{ 'mango-sylius.ui.sortingPlugin.header'|trans }}{% endblock %}
+{% block title %}{{ 'threebrs.ui.sortingPlugin.header'|trans }}{% endblock %}
 
 {% block content %}
 
-	<form method="post" action="{{ path('mango_sylius_admin_sorting_products_save') }}">
+	<form method="post" action="{{ path('threebrs_admin_sorting_products_save') }}">
 		<div class="ui stackable two column grid">
 			<div class="column">
 				<h1 class="ui header">
 					<i class="circular sort icon"></i>
 					<div class="content">
-						{{ 'mango-sylius.ui.sortingPlugin.header'|trans }}
-						<div class="sub header">{{ 'mango-sylius.ui.sortingPlugin.subHeader'|trans }}</div>
+						{{ 'threebrs.ui.sortingPlugin.header'|trans }}
+						<div class="sub header">{{ 'threebrs.ui.sortingPlugin.subHeader'|trans }}</div>
 					</div>
 				</h1>
 
 				{% if taxon is defined %}
 					{% set breadcrumbs = [
 						{ label: 'sylius.ui.administration'|trans, url: path('sylius_admin_dashboard') },
-						{ label: 'mango-sylius.ui.sortingPlugin.header'|trans, url: path('mango_sylius_admin_sorting_index') },
+						{ label: 'threebrs.ui.sortingPlugin.header'|trans, url: path('threebrs_admin_sorting_index') },
 						{ label: taxon.name },
 					] %}
 				{% else %}
 					{% set breadcrumbs = [
 						{ label: 'sylius.ui.administration'|trans, url: path('sylius_admin_dashboard') },
-						{ label: 'mango-sylius.ui.sortingPlugin.header'|trans },
+						{ label: 'threebrs.ui.sortingPlugin.header'|trans },
 					] %}
 				{% endif %}
 
@@ -41,7 +41,7 @@
 					<label for="sort-tree-toggler"
 						   class="ui labeled icon button">
 						<i class="icon list"></i>
-						{{ 'mango-sylius.ui.sortingPlugin.toggleTaxons'|trans }}
+						{{ 'threebrs.ui.sortingPlugin.toggleTaxons'|trans }}
 					</label>
 					{% set disableButton = taxon is not defined or (taxon is defined and productsTaxons|length == 0) %}
 					<button type="submit"
@@ -57,7 +57,7 @@
 		<div class="sortPage">
 			<input type="checkbox" checked="checked" class="sortPage-toggler" id="sort-tree-toggler">
 			<div class="sortPage-tree">
-				{{ render(path('sylius_admin_partial_taxon_tree', {'template': '@MangoSyliusSortingPlugin/_taxonTree.html.twig'})) }}
+				{{ render(path('sylius_admin_partial_taxon_tree', {'template': '@ThreeBRSSyliusSortingPlugin/_taxonTree.html.twig'})) }}
 			</div>
 			<div class="sylius-product-index sortPage-products">
 				{% if taxon is defined %}
@@ -67,7 +67,7 @@
 								{% set product = productTaxon.product %}
 								<div class="sortableItem card">
 									<div class="content" style="{% if not product.enabled %}opacity: 0.5{% endif %}">
-										{{ include('@MangoSyliusSortingPlugin/_mainImage.html.twig') }}
+										{{ include('@ThreeBRSSyliusSortingPlugin/_mainImage.html.twig') }}
 										<div class="header">
 											{{ product.name }}
 										</div>
@@ -88,10 +88,10 @@
 							{% endfor %}
 						</div>
 					{% else %}
-						{{ messages.info('mango-sylius.ui.sortingPlugin.noProducts') }}
+						{{ messages.info('threebrs.ui.sortingPlugin.noProducts') }}
 					{% endif %}
 				{% else %}
-					{{ messages.info('mango-sylius.ui.sortingPlugin.chooseTaxon') }}
+					{{ messages.info('threebrs.ui.sortingPlugin.chooseTaxon') }}
 				{% endif %}
 			</div>
 		</div>
@@ -103,11 +103,11 @@
 {% block stylesheets %}
 	{{ parent() }}
 
-	{% include 'SyliusUiBundle::_stylesheets.html.twig' with {'path': 'bundles/mangosyliussortingplugin/admin/css/sorting-plugin.css'} %}
+	{% include 'SyliusUiBundle::_stylesheets.html.twig' with {'path': 'bundles/ThreeBRSSyliusSortingplugin/admin/css/sorting-plugin.css'} %}
 {% endblock %}
 
 {% block javascripts %}
 	{{ parent() }}
 
-	{% include 'SyliusUiBundle::_javascripts.html.twig' with {'path': 'bundles/mangosyliussortingplugin/admin/js/sorting-plugin.js'} %}
+	{% include 'SyliusUiBundle::_javascripts.html.twig' with {'path': 'bundles/ThreeBRSSyliusSortingplugin/admin/js/sorting-plugin.js'} %}
 {% endblock %}

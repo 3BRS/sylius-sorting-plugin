@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MangoSylius\SortingPlugin\Menu;
+namespace ThreeBRS\SortingPlugin\Menu;
 
 use Sylius\Bundle\UiBundle\Menu\Event\MenuBuilderEvent;
 
@@ -17,9 +17,9 @@ final class SortingMenuBuilder
 		if ($sales !== null) {
 			$sales
 				->addChild('sorting', [
-					'route' => 'mango_sylius_admin_sorting_index',
+					'route' => 'threebrs_admin_sorting_index',
 				])
-				->setName('mango-sylius.ui.sortingPlugin.menuTitle')
+				->setName('threebrs.ui.sortingPlugin.menuTitle')
 				->setLabelAttribute('icon', 'sort');
 		}
 	}

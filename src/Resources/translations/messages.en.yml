@@ -1,4 +1,4 @@
-mango-sylius:
+threebrs:
     ui:
         sortingPlugin:
             header: Sorting products

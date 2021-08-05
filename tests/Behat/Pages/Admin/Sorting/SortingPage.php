@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\MangoSylius\SortingPlugin\Behat\Pages\Admin\Sorting;
+namespace Tests\ThreeBRS\SortingPlugin\Behat\Pages\Admin\Sorting;
 
 use FriendsOfBehat\PageObjectExtension\Page\SymfonyPage;
 
@@ -10,7 +10,7 @@ final class SortingPage extends SymfonyPage implements SortingPageInterface
 {
 	public function getRouteName(): string
 	{
-		return 'mango_sylius_admin_sorting_products';
+		return 'threebrs_admin_sorting_products';
 	}
 
 	public function saveSorting(): void

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MangoSylius\SortingPlugin\DependencyInjection;
+namespace ThreeBRS\SortingPlugin\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
  *
  * @see http://symfony.com/doc/current/cookbook/bundles/extension.html
  */
-class MangoSyliusSortingExtension extends Extension
+class ThreeBRSSyliusSortingExtension extends Extension
 {
 	public function load(array $configs, ContainerBuilder $container): void
 	{

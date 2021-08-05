@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace MangoSylius\SortingPlugin\Controller;
+namespace ThreeBRS\SortingPlugin\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\ProductTaxonInterface;
@@ -23,33 +23,26 @@ class SortingController
 {
 	/** @var EngineInterface */
 	private $templatingEngine;
-	/**
-	 * @var TaxonRepositoryInterface
-	 */
+
+	/** @var TaxonRepositoryInterface */
 	private $taxonRepository;
-	/**
-	 * @var ProductTaxonRepositoryInterface
-	 */
+
+	/** @var ProductTaxonRepositoryInterface */
 	private $productTaxonRepository;
-	/**
-	 * @var EntityManagerInterface
-	 */
+
+	/** @var EntityManagerInterface */
 	private $entityManager;
-	/**
-	 * @var EventDispatcherInterface
-	 */
+
+	/** @var EventDispatcherInterface */
 	private $eventDispatcher;
-	/**
-	 * @var RouterInterface
-	 */
+
+	/** @var RouterInterface */
 	private $router;
-	/**
-	 * @var FlashBagInterface
-	 */
+
+	/** @var FlashBagInterface */
 	private $flashBag;
-	/**
-	 * @var TranslatorInterface
-	 */
+
+	/** @var TranslatorInterface */
 	private $translator;
 
 	public function __construct(
@@ -76,7 +69,7 @@ class SortingController
 	{
 		return new Response(
 			$this->templatingEngine->render(
-				'@MangoSyliusSortingPlugin/index.html.twig'
+				'@ThreeBRSSyliusSortingPlugin/index.html.twig'
 			)
 		);
 	}
@@ -95,7 +88,7 @@ class SortingController
 
 		return new Response(
 			$this->templatingEngine->render(
-				'@MangoSyliusSortingPlugin/index.html.twig',
+				'@ThreeBRSSyliusSortingPlugin/index.html.twig',
 				[
 					'taxon' => $taxon,
 					'productsTaxons' => $productsTaxons,
@@ -126,19 +119,19 @@ class SortingController
 		$this->entityManager->flush();
 
 		if ($taxon !== null) {
-			$message = $this->translator->trans('mango-sylius.ui.sortingPlugin.successMessage');
+			$message = $this->translator->trans('threebrs.ui.sortingPlugin.successMessage');
 			$this->flashBag->add('success', $message);
 
-			$redirectUrl = $this->router->generate('mango_sylius_admin_sorting_products', ['taxonId' => $taxon->getId()]);
+			$redirectUrl = $this->router->generate('threebrs_admin_sorting_products', ['taxonId' => $taxon->getId()]);
 
 			// Eg. for update product position in elasticsearch
 			$event = new GenericEvent($taxon);
-			$this->eventDispatcher->dispatch('mango-sylius-sorting-products-after-persist', $event);
+			$this->eventDispatcher->dispatch('threebrs-sorting-products-after-persist', $event);
 		} else {
-			$message = $this->translator->trans('mango-sylius.ui.sortingPlugin.noProductMessage');
+			$message = $this->translator->trans('threebrs.ui.sortingPlugin.noProductMessage');
 			$this->flashBag->add('error', $message);
 
-			$redirectUrl = $this->router->generate('mango_sylius_admin_sorting_index');
+			$redirectUrl = $this->router->generate('threebrs_admin_sorting_index');
 		}
 
 		return new RedirectResponse($redirectUrl);

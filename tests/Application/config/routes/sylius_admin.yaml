@@ -2,6 +2,6 @@ sylius_admin:
     resource: "@SyliusAdminBundle/Resources/config/routing.yml"
     prefix: /admin
 
-mango_sorting:
-    resource: "@MangoSyliusSortingPlugin/Resources/config/routing.yml"
+threebrs_sorting:
+    resource: "@ThreeBRSSyliusSortingPlugin/Resources/config/routing.yml"
     prefix: /admin
