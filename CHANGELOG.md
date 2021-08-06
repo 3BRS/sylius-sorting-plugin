@@ -1,8 +1,13 @@
 # CHANGELOG
 
-## v1.0.0 (2020-04-28)
+## v1.1.0 (2021-08-06)
+
+#### Details
+
+- Update to Sylius ^1.8|^1.9
+
+## v1.0.0 (2021-08-05)
 
 #### Details
 
 - Update to Sylius ^1.7
-- Update to php ^7.3
