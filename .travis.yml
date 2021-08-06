@@ -1,6 +1,6 @@
 language: php
 
-dist: trusty
+dist: focal
 
 sudo: false
 
@@ -19,13 +19,17 @@ env:
 matrix:
     include:
         -
-            php: 7.3
+            php: 7.4
             env:
                 - SYLIUS_VERSION="1.8.*"
         -
-            php: 7.3
+            php: 7.4
             env:
                 - SYLIUS_VERSION="1.9.*"
+        -
+            php: 7.4
+            env:
+                - SYLIUS_VERSION="1.10.*"
 
 before_install:
     - phpenv config-rm xdebug.ini
