@@ -4,7 +4,7 @@
 
 #### Details
 
-- Update to Sylius ^1.8|^1.9
+- Update to Sylius ^1.8|^1.9|^1.10
 
 ## v1.0.0 (2021-08-05)
 
