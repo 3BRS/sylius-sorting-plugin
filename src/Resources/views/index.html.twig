@@ -103,11 +103,11 @@
 {% block stylesheets %}
 	{{ parent() }}
 
-	{% include 'SyliusUiBundle::_stylesheets.html.twig' with {'path': 'bundles/threebrssyliussortingplugin/admin/css/sorting-plugin.css'} %}
+	{% include '@SyliusUi/_stylesheets.html.twig' with {'path': 'bundles/threebrssyliussortingplugin/admin/css/sorting-plugin.css'} %}
 {% endblock %}
 
 {% block javascripts %}
 	{{ parent() }}
 
-	{% include 'SyliusUiBundle::_javascripts.html.twig' with {'path': 'bundles/threebrssyliussortingplugin/admin/js/sorting-plugin.js'} %}
+	{% include '@SyliusUi/_javascripts.html.twig' with {'path': 'bundles/threebrssyliussortingplugin/admin/js/sorting-plugin.js'} %}
 {% endblock %}
