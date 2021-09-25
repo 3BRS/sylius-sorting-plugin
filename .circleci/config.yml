@@ -21,7 +21,7 @@ workflows:
                         parameters:
                             sylius_version: [ "1.10" ]
                             symfony_version: [ "5.2" ]
-                            php_version: [ "8.0", "8.1" ]
+                            php_version: [ "8.0" ]
 
 jobs:
     build:
