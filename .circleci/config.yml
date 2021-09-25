@@ -30,5 +30,9 @@ jobs:
             #            - run: php artisan migrate --env=testing --database=sqlite_testing --force
             #            - run: ./vendor/bin/codecept build
             #            - run: ./vendor/bin/codecept run
+            - run: (cd tests/Application && bin/console doctrine:database:create --env=test -vvv)
+            - run: (cd tests/Application && bin/console doctrine:schema:create --env=test -vvv)
+            - run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
             - run: ./bin/phpstan.sh
+            - run: ./bin/bin/behat
             - run: ./bin/ecs.sh
