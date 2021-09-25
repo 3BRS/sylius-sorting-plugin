@@ -19,7 +19,6 @@ jobs:
         steps:
             - checkout
             -   run: composer self-update
-            -   run: COMPOSER_MEMORY_LIMIT=-1 composer config extra.symfony.require "<< parameters.symfony_version >>"
             -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "sylius/sylius:<< parameters.sylius_version >>" --no-interaction --no-update
             -   run: COMPOSER_MEMORY_LIMIT=-1 composer update --no-interaction --prefer-dist
             -   run: (cd tests/Application && bin/console doctrine:database:create --env=test -vvv)
