@@ -44,7 +44,7 @@ jobs:
 #                        - composer-v1-{{ checksum "composer.lock" }}
 #                        - composer-v1-
 #            -   run: COMPOSER_MEMORY_LIMIT=-1 composer install -n --prefer-dist
-            -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "sylius/sylius:${matrix.sylius_version}" --no-interaction --no-update
+            -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "sylius/sylius:<< matrix.sylius_version >>" --no-interaction --no-update
             -   run: COMPOSER_MEMORY_LIMIT=-1 composer update --no-interaction --prefer-dist
 #            -   save_cache:
 #                    key: composer-v1-{{ checksum "composer.lock" }}
