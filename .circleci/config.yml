@@ -11,7 +11,6 @@ workflows:
                         parameters:
                             sylius_version: [ "1.8", "1.9", "1.10" ]
                             symfony_version: [ "4.4", "5.2" ]
-                            php_version: [ "7.4" ]
                         exclude:
                             -   sylius_version: "1.8"
                                 symfony_version: "5.2"
