@@ -14,8 +14,6 @@ jobs:
         parameters:
             sylius_version:
                 type: string
-            symfony_version:
-                type: string
         docker:
             -   image: webdevops/php-nginx:7.4-alpine
         steps:
