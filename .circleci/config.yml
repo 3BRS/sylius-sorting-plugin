@@ -18,7 +18,7 @@ workflows:
                     name: build-sylius-<< matrix.sylius_version >>
                     matrix:
                         parameters:
-                            sylius_version: [ "1.8", "1.9", "1.10" ]
+                            sylius_version: [ "1.7", "1.8", "1.9", "1.10" ]
 
 #workflows:
 #    workflow:

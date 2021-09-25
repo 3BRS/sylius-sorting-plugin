@@ -12,8 +12,8 @@ Sorting Plugin
     <a href="https://packagist.org/packages/3brs/sylius-sorting-plugin" title="Version" target="_blank">
         <img src="https://img.shields.io/packagist/v/3brs/sylius-sorting-plugin" />
     </a>
-    <a href="http://travis-ci.com/3brs/sylius-sorting-plugin" title="Build status" target="_blank">
-        <img src="https://img.shields.io/travis/com/3brs/sylius-sorting-plugin" />
+    <a href="https://circleci.com/gh/3BRS/sylius-sorting-plugin" title="Build status" target="_blank">
+        <img src="https://circleci.com/gh/3BRS/sylius-sorting-plugin.svg?style=shield" />
     </a>
 </h1>
 
