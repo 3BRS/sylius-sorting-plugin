@@ -14,11 +14,11 @@ version: 2.1
 workflows:
     workflow:
         jobs:
-            - build:
-                  name: build-sylius-<< matrix.sylius_version >>
-                  matrix:
-                      parameters:
-                          sylius_version: ["1.8", "1.9", "1.10"]
+            -   build:
+                    name: build-sylius-<< matrix.sylius_version >>
+                    matrix:
+                        parameters:
+                            sylius_version: [ "1.8", "1.9", "1.10" ]
 
 #workflows:
 #    workflow:
@@ -34,22 +34,25 @@ workflows:
 
 jobs:
     build:
+        parameters:
+            sylius_version:
+                type: string
         docker:
             -   image: webdevops/php-nginx:7.4-alpine
         steps:
             - checkout
             -   run: composer self-update
-#            -   restore_cache:
-#                    keys:
-#                        - composer-v1-{{ checksum "composer.lock" }}
-#                        - composer-v1-
-#            -   run: COMPOSER_MEMORY_LIMIT=-1 composer install -n --prefer-dist
-            -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "sylius/sylius:<< matrix.sylius_version >>" --no-interaction --no-update
+            #            -   restore_cache:
+            #                    keys:
+            #                        - composer-v1-{{ checksum "composer.lock" }}
+            #                        - composer-v1-
+            #            -   run: COMPOSER_MEMORY_LIMIT=-1 composer install -n --prefer-dist
+            -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "sylius/sylius:<< parameters.sylius_version >>" --no-interaction --no-update
             -   run: COMPOSER_MEMORY_LIMIT=-1 composer update --no-interaction --prefer-dist
-#            -   save_cache:
-#                    key: composer-v1-{{ checksum "composer.lock" }}
-#                    paths:
-#                        - vendor
+            #            -   save_cache:
+            #                    key: composer-v1-{{ checksum "composer.lock" }}
+            #                    paths:
+            #                        - vendor
             #            - restore_cache: # special step to restore the dependency cache if `package-lock.json` does not change
             #                  keys:
             #                      - node-v1-{{ checksum "package-lock.json" }}
