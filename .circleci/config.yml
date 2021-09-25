@@ -49,5 +49,5 @@ jobs:
             -   run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
             -   run: ./bin/ecs.sh
             -   run: ./bin/phpstan.sh
-            -   run: ./symfony-lint.sh
+            -   run: ./bin/symfony-lint.sh
 #            -   run: ./bin/behat
