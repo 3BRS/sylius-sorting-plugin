@@ -1,21 +1,44 @@
-version: 2
+version: 2.1
+
+workflows:
+    build:
+        jobs:
+            -   build:
+                    pre-steps:
+                        -   run:
+                                command: echo "pre-stepspre-stepspre-stepspre-stepspre-stepspre-stepspre-steps"
+                    post-steps:
+                        -   run:
+                                command: echo "post-stepspost-stepspost-stepspost-stepspost-stepspost-stepspost-steps"
+
+#workflows:
+#    workflow:
+#        jobs:
+#            - build:
+#                  name: build-macos-0.1
+#                  version: 0.1
+#                  platform: macos
+#            - build:
+#                  name: build-macos-0.2
+#                  version: 0.2
+#                  platform: macos
 
 jobs:
     build:
         docker:
-            - image: webdevops/php-nginx:7.4-alpine
+            -   image: webdevops/php-nginx:7.4-alpine
         steps:
             - checkout
-            - run: composer self-update
-            - restore_cache:
-                  keys:
-                      - composer-v1-{{ checksum "composer.lock" }}
-                      - composer-v1-
-            - run: COMPOSER_MEMORY_LIMIT=-1 composer install -n --prefer-dist
-            - save_cache:
-                  key: composer-v1-{{ checksum "composer.lock" }}
-                  paths:
-                      - vendor
+            -   run: composer self-update
+            -   restore_cache:
+                    keys:
+                        - composer-v1-{{ checksum "composer.lock" }}
+                        - composer-v1-
+            -   run: COMPOSER_MEMORY_LIMIT=-1 composer install -n --prefer-dist
+            -   save_cache:
+                    key: composer-v1-{{ checksum "composer.lock" }}
+                    paths:
+                        - vendor
             #            - restore_cache: # special step to restore the dependency cache if `package-lock.json` does not change
             #                  keys:
             #                      - node-v1-{{ checksum "package-lock.json" }}
@@ -30,9 +53,9 @@ jobs:
             #            - run: php artisan migrate --env=testing --database=sqlite_testing --force
             #            - run: ./vendor/bin/codecept build
             #            - run: ./vendor/bin/codecept run
-            - run: (cd tests/Application && bin/console doctrine:database:create --env=test -vvv)
-            - run: (cd tests/Application && bin/console doctrine:schema:create --env=test -vvv)
-            - run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
-            - run: ./bin/phpstan.sh
-            - run: ./bin/behat
-            - run: ./bin/ecs.sh
+            -   run: (cd tests/Application && bin/console doctrine:database:create --env=test -vvv)
+            -   run: (cd tests/Application && bin/console doctrine:schema:create --env=test -vvv)
+            -   run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
+            -   run: ./bin/phpstan.sh
+            -   run: ./bin/behat
+            -   run: ./bin/ecs.sh
