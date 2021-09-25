@@ -5,8 +5,7 @@ workflows:
         jobs:
             -   build:
                     name: php-7.4-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
-                    parameters:
-                        php_version: "7.4"
+                    php_version: "7.4"
                     matrix:
                         parameters:
                             sylius_version: [ "1.8", "1.9", "1.10" ]
@@ -18,8 +17,7 @@ workflows:
                                 symfony_version: "5.2"
             -   build:
                     name: php-8.0-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
-                    parameters:
-                        php_version: "8.0"
+                    php_version: "8.0"
                     matrix:
                         parameters:
                             sylius_version: [ "1.10" ]
