@@ -126,7 +126,7 @@ class SortingController
 
             // Eg. for update product position in elasticsearch
             $event = new GenericEvent($taxon);
-            $this->eventDispatcher->dispatch('threebrs-sorting-products-after-persist', $event);
+            $this->eventDispatcher->dispatch($event, 'threebrs-sorting-products-after-persist');
         } else {
             $message = $this->translator->trans('threebrs.ui.sortingPlugin.noProductMessage');
             $this->flashBag->add('error', $message);
