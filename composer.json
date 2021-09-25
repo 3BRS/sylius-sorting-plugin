@@ -4,7 +4,7 @@
 	"description": "Sorting plugin for Sylius",
 	"license": "MIT",
 	"require": {
-		"php": "^7.3|^7.4",
+		"php": "^7.3|^7.4|^8.0",
 		"sylius/sylius": "^1.7|^1.8|^1.9|^1.10"
 	},
 	"require-dev": {

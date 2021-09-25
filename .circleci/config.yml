@@ -9,14 +9,19 @@ workflows:
                         parameters:
                             sylius_version: [ "1.8", "1.9", "1.10" ]
                             symfony_version: [ "4.4", "5.2" ]
-                            php_version: [ "7.4", "8.0" ]
+                            php_version: [ "7.4" ]
                         exclude:
                             -   sylius_version: "1.8"
                                 symfony_version: "5.2"
                             -   sylius_version: "1.9"
                                 symfony_version: "5.2"
-                            -   php_version: "4.4"
-                                symfony_version: "7.4"
+            -   build:
+                    name: php-<< matrix.php_version >>-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
+                    matrix:
+                        parameters:
+                            sylius_version: [ "1.10" ]
+                            symfony_version: [ "5.2" ]
+                            php_version: [ "8.0", "8.1" ]
 
 jobs:
     build:
