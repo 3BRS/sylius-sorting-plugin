@@ -13,7 +13,7 @@ services:
     ThreeBRS\SortingPlugin\Controller\SortingController:
         public: true
         arguments:
-            $templatingEngine: '@templating'
+            $templatingEngine: '@twig'
             $taxonRepository: '@sylius.repository.taxon'
             $productTaxonRepository: '@sylius.repository.product_taxon'
             $entityManager: '@doctrine.orm.entity_manager'

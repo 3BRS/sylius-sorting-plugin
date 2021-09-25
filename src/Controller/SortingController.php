@@ -16,12 +16,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\Templating\EngineInterface;
-use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
+use Twig\Environment;
 
 class SortingController
 {
-	/** @var EngineInterface */
+	/** @var Environment */
 	private $templatingEngine;
 
 	/** @var TaxonRepositoryInterface */
@@ -46,7 +46,7 @@ class SortingController
 	private $translator;
 
 	public function __construct(
-		EngineInterface $templatingEngine,
+		Environment $templatingEngine,
 		TaxonRepositoryInterface $taxonRepository,
 		ProductTaxonRepositoryInterface $productTaxonRepository,
 		EntityManagerInterface $entityManager,

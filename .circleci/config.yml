@@ -35,9 +35,13 @@ jobs:
         docker:
             -   image: webdevops/php-nginx:<< parameters.php_version >>-alpine
         steps:
-            - checkout
+            -   checkout
             -   run: composer self-update
-            -   run: COMPOSER_MEMORY_LIMIT=-1 composer config extra.symfony.require "<< parameters.symfony_version >>"
+            -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "symfony/browser-kit:^<< parameters.symfony_version >>" --no-interaction --no-update
+            -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "symfony/debug-bundle:^<< parameters.symfony_version >>" --no-interaction --no-update
+            -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "symfony/dotenv:^<< parameters.symfony_version >>" --no-interaction --no-update
+            -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "symfony/intl:^<< parameters.symfony_version >>" --no-interaction --no-update
+            -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "symfony/web-profiler-bundle:^<< parameters.symfony_version >>" --no-interaction --no-update
             -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "sylius/sylius:<< parameters.sylius_version >>" --no-interaction --no-update
             -   run: COMPOSER_MEMORY_LIMIT=-1 composer update --no-interaction --prefer-dist
             -   run: (cd tests/Application && bin/console doctrine:database:create --env=test -vvv)

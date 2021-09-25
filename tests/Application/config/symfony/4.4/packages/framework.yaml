@@ -1,2 +1,2 @@
-framework:
-    templating: { engines: ["twig"] }
+#framework:
+#    templating: { engines: ["twig"] }
