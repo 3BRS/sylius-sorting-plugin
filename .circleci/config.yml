@@ -4,21 +4,30 @@ workflows:
     workflow:
         jobs:
             -   build:
-                    name: build-sylius-<< matrix.sylius_version >>
+                    name: sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
                     matrix:
                         parameters:
                             sylius_version: [ "1.8", "1.9", "1.10" ]
+                            symfony_version: [ "4.4", "5.2" ]
+                        exclude:
+                            -   sylius_version: "1.8"
+                                symfony_version: "5.2"
+                            -   sylius_version: "1.9"
+                                symfony_version: "5.2"
 
 jobs:
     build:
         parameters:
             sylius_version:
                 type: string
+            symfony_version:
+                type: string
         docker:
             -   image: webdevops/php-nginx:7.4-alpine
         steps:
             - checkout
             -   run: composer self-update
+            -   run: COMPOSER_MEMORY_LIMIT=-1 composer config extra.symfony.require "<< parameters.symfony_version >>"
             -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "sylius/sylius:<< parameters.sylius_version >>" --no-interaction --no-update
             -   run: COMPOSER_MEMORY_LIMIT=-1 composer update --no-interaction --prefer-dist
             -   run: (cd tests/Application && bin/console doctrine:database:create --env=test -vvv)
