@@ -18,7 +18,9 @@ workflows:
                     name: build-sylius-<< matrix.sylius_version >>
                     matrix:
                         parameters:
-                            sylius_version: [ "1.7", "1.8", "1.9", "1.10" ]
+                            sylius_version: [ "1.8", "1.9", "1.10" ]
+                            symfony_version: [ "4.4", "5.2" ]
+
 
 #workflows:
 #    workflow:
@@ -37,6 +39,8 @@ jobs:
         parameters:
             sylius_version:
                 type: string
+            symfony_version:
+                type: string
         docker:
             -   image: webdevops/php-nginx:7.4-alpine
         steps:
@@ -47,6 +51,7 @@ jobs:
             #                        - composer-v1-{{ checksum "composer.lock" }}
             #                        - composer-v1-
             #            -   run: COMPOSER_MEMORY_LIMIT=-1 composer install -n --prefer-dist
+            -   run: COMPOSER_MEMORY_LIMIT=-1 composer config extra.symfony.require "<< parameters.symfony_version >>"
             -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "sylius/sylius:<< parameters.sylius_version >>" --no-interaction --no-update
             -   run: COMPOSER_MEMORY_LIMIT=-1 composer update --no-interaction --prefer-dist
             #            -   save_cache:
@@ -63,10 +68,6 @@ jobs:
             #                  key: node-v1-{{ checksum "package-lock.json" }}
             #                  paths:
             #                      - node_modules
-            #            - run: touch storage/testing.sqlite
-            #            - run: php artisan migrate --env=testing --database=sqlite_testing --force
-            #            - run: ./vendor/bin/codecept build
-            #            - run: ./vendor/bin/codecept run
             -   run: (cd tests/Application && bin/console doctrine:database:create --env=test -vvv)
             -   run: (cd tests/Application && bin/console doctrine:schema:create --env=test -vvv)
             -   run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
