@@ -4,14 +4,8 @@ jobs:
     build:
         docker:
             - image: webdevops/php-nginx:7.4-alpine
-        #              auth:
-        #                  username: mydockerhub-user
-        #                  password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
-        #        working_directory: ~/laravel # directory where steps will run
         steps:
             - checkout
-            ##            - run: sudo apt install -y libsqlite3-dev zlib1g-dev
-            #            - run: sudo docker-php-ext-install zip
             - run: composer self-update
             - restore_cache:
                   keys:
@@ -25,7 +19,7 @@ jobs:
             #            - restore_cache: # special step to restore the dependency cache if `package-lock.json` does not change
             #                  keys:
             #                      - node-v1-{{ checksum "package-lock.json" }}
-            #                      # fallback to using the latest cache if no exact match is found (See https://circleci.com/docs/2.0/caching/)
+            #                      # fallback to using the latest cache if no exact match is found (See https://circleci.com/docs/2.0/caching/)y
             #                      - node-v1-
             #            - run: yarn install
             #            - save_cache: # special step to save the dependency cache with the `package-lock.json` cache key template
@@ -36,4 +30,5 @@ jobs:
             #            - run: php artisan migrate --env=testing --database=sqlite_testing --force
             #            - run: ./vendor/bin/codecept build
             #            - run: ./vendor/bin/codecept run
+            - run: ./bin/phpstan.sh
             - run: ./bin/ecs.sh
