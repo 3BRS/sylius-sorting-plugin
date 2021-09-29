@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## v1.2.1 (2021-09-29)
+
+#### Details
+
+- Fix support for Sylius subversions
+
 ## v1.2.0 (2021-09-27)
 
 #### Details
