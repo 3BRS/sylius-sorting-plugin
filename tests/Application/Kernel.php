@@ -41,7 +41,7 @@ final class Kernel extends BaseKernel
         }
     }
 
-    protected function getContainerClass()
+    protected function getContainerClass(): string
     {
         return 'testContainer';
     }

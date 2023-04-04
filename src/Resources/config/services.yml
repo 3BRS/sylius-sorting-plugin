@@ -12,12 +12,12 @@ services:
 
     ThreeBRS\SortingPlugin\Controller\SortingController:
         public: true
-        arguments:
-            $templatingEngine: '@twig'
-            $taxonRepository: '@sylius.repository.taxon'
-            $productTaxonRepository: '@sylius.repository.product_taxon'
-            $entityManager: '@doctrine.orm.entity_manager'
-            $eventDispatcher: '@event_dispatcher'
-            $router: '@router'
-            $translator: '@translator'
-            $flashBag: '@session.flash_bag'
+        autowire: true
+
+    ThreeBRS\SortingPlugin\Service\ProductPositionsUpdater:
+        public: true
+        autowire: true
+    
+    ThreeBRS\SortingPlugin\Service\TaxonsAccessor:
+        public: true
+        autowire: true

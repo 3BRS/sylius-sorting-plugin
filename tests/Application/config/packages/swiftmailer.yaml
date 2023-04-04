@@ -1,2 +1,2 @@
-swiftmailer:
-    url: '%env(MAILER_URL)%'
+#swiftmailer:
+#    url: '%env(MAILER_URL)%'
