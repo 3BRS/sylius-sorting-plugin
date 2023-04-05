@@ -3,6 +3,7 @@
 /node_modules/
 /composer.lock
 /.phpcs-cache
+/yarn-error.log
 
 /etc/build/*
 !/etc/build/.gitkeep
