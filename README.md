@@ -33,11 +33,11 @@ Sorting Plugin
 
 1. Run `$ composer require 3brs/sylius-sorting-plugin`.
 2. Register `\ThreeBRS\SortingPlugin\ThreeBRSSyliusSortingPlugin` in your Kernel.
-3. Import `@ThreeBRSSyliusSortingPlugin/Resources/config/routing.yml` in the `routes.yml`.
+3. Import `@ThreeBRSSyliusSortingPlugin/Resources/config/routing.yml` to your application `config/routes.yml`.
 	```yaml
 	threebrs_sorting:
-	    resource: "@ThreeBRSSyliusSortingPlugin/Resources/config/routing.yml"
-	    prefix: /admin
+        resource: "@ThreeBRSSyliusSortingPlugin/Resources/config/routing.yml"
+        prefix: '/%sylius_admin.path_name%' # /admin
 	```
 
 ## Usage
@@ -60,17 +60,24 @@ Sorting Plugin
 
 After your changes you must ensure that the tests are still passing.
 
+#### Prerequisites
 ```bash
-$ composer install
-$ bin/console doctrine:schema:create -e test
-$ bin/behat
-$ bin/phpstan.sh
-$ bin/ecs.sh
+composer install
+yarn --cwd tests/Application install
+yarn --cwd tests/Application build
+tests/Application/bin/console doctrine:schema:create --env test
+```
+
+#### Tests
+```bash
+bin/behat
+bin/phpstan.sh
+bin/ecs.sh
 ```
 
 License
 -------
-This library is under the MIT license.
+This library is under the [MIT license](./LICENSE).
 
 Credits
 -------
