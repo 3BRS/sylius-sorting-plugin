@@ -24,10 +24,10 @@ class ProductPositionsUpdater
     private array $identifiersPositionsMap = [];
 
     public function __construct(
-        private readonly EntityManagerInterface $entityManager,
-        private readonly RouterInterface $router,
-        private readonly EventDispatcherInterface $eventDispatcher,
-        private readonly TranslatorInterface $translator,
+        private EntityManagerInterface $entityManager,
+        private RouterInterface $router,
+        private EventDispatcherInterface $eventDispatcher,
+        private TranslatorInterface $translator,
     )
     {
     }

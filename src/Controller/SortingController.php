@@ -14,9 +14,9 @@ use Twig\Environment;
 class SortingController
 {
     public function __construct(
-        private readonly Environment $templatingEngine,
-        private readonly TaxonsAccessor $taxonsAccessor,
-        private readonly ProductPositionsUpdater $productPositionsUpdater,
+        private Environment $templatingEngine,
+        private TaxonsAccessor $taxonsAccessor,
+        private ProductPositionsUpdater $productPositionsUpdater,
     )
     {
     }

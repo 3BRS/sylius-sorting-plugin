@@ -20,8 +20,8 @@ class TaxonsAccessor
     private array $productsTaxons = [];
 
     public function __construct(
-        private readonly TaxonRepositoryInterface $taxonRepository,
-        private readonly ProductTaxonRepositoryInterface $productTaxonRepository,
+        private TaxonRepositoryInterface $taxonRepository,
+        private ProductTaxonRepositoryInterface $productTaxonRepository,
     )
     {
     }
