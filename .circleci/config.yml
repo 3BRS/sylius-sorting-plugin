@@ -8,19 +8,19 @@ workflows:
                     php_version: "8.0"
                     matrix:
                         parameters:
-                            sylius_version: [ "1.11", "1.12" ]
+                            sylius_version: [ "1.12" ]
             -   build:
                     name: php-8.1-sylius-<< matrix.sylius_version >>
                     php_version: "8.1"
                     matrix:
                         parameters:
-                            sylius_version: [ "1.11", "1.12" ]
+                            sylius_version: [ "1.12" ]
             -   build:
                     name: php-8.2-sylius-<< matrix.sylius_version >>
                     php_version: "8.2"
                     matrix:
                         parameters:
-                            sylius_version: [ "1.11", "1.12" ]
+                            sylius_version: [ "1.12" ]
 
 jobs:
     build:
