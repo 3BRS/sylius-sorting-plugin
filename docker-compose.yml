@@ -12,7 +12,7 @@ services:
             APP_ENV: "test"
             APP_DEBUG: "1"
             APP_SECRET: "${APP_SECRET:-EDITME}"
-            DATABASE_URL: "mysql://${MYSQL_USER:-sylius}:${MYSQL_PASSWORD:-pass}@mysql_sylius_sylius_sorting:3306/${MYSQL_DATABASE:-sylius}"
+            DATABASE_URL: "mysql://${MYSQL_USER:-sylius}:${MYSQL_PASSWORD:-pass}@mysql_sylius_sylius_sorting:3306/${MYSQL_DATABASE:-3brs_sylius_sorting_plugin_test}"
             MAILER_URL: "smtp://mailhog:1025"
             PHP_DATE_TIMEZONE: "${PHP_DATE_TIMEZONE:-UTC}"
         volumes:
@@ -22,7 +22,7 @@ services:
         image: mysql:8.0
         environment:
             - MYSQL_ROOT_PASSWORD=pass_root
-            - MYSQL_DATABASE=sylius
+            - MYSQL_DATABASE=3brs_sylius_sorting_plugin_test
             - MYSQL_USER=sylius
             - MYSQL_PASSWORD=pass
         ports:
