@@ -75,6 +75,14 @@ bin/phpstan.sh
 bin/ecs.sh
 ```
 
+#### Docker
+You can use Docker for local development and testing
+
+```bash
+docker compose up
+docker compose exec -u www-data php_sylius_sorting bash
+```
+
 License
 -------
 This library is under the [MIT license](./LICENSE).
