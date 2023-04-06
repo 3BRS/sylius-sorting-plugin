@@ -68,6 +68,8 @@ jobs:
             -   run: composer analyze
             -   run: composer test
 
+            # has to delete vendor for next test with different libraries version to avoid Composer error 'Failed to extract...' if vendor dir cache does not exist
+            -   run: rm -fr vendor composer.lock
             -   restore_cache:
                     keys:
                         - vendor-cache-prefer-lowest-<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
