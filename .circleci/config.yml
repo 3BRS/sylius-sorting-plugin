@@ -9,21 +9,21 @@ workflows:
                     matrix:
                         parameters:
                             sylius_version: [ "1.12" ]
-                            symfony_version: [ "6.0", "6.1", "6.2" ]
+                            symfony_version: [ "5.4", "6.0" ]
             -   build:
                     name: php-8.1-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
                     php_version: "8.1"
                     matrix:
                         parameters:
                             sylius_version: [ "1.12" ]
-                            symfony_version: [ "6.0", "6.1", "6.2" ]
+                            symfony_version: [ "5.4", "6.0", "6.1", "6.2" ]
             -   build:
                     name: php-8.2-sylius-<< matrix.sylius_version >>-symfony-<< matrix.symfony_version >>
                     php_version: "8.2"
                     matrix:
                         parameters:
                             sylius_version: [ "1.12" ]
-                            symfony_version: [ "6.0", "6.1", "6.2" ]
+                            symfony_version: [ "5.4", "6.0", "6.1", "6.2" ]
 
 jobs:
     build:
@@ -49,13 +49,10 @@ jobs:
                         # fallback to using the latest cache if no exact match is found
                         - vendor-cache-
 
-            -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "symfony/browser-kit:<< parameters.symfony_version >>.*" --no-interaction --no-update
-            -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "symfony/debug-bundle:<< parameters.symfony_version >>.*" --no-interaction --no-update
-            -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "symfony/dotenv:<< parameters.symfony_version >>.*" --no-interaction --no-update
-            -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "symfony/intl:<< parameters.symfony_version >>.*" --no-interaction --no-update
-            -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "symfony/web-profiler-bundle:<< parameters.symfony_version >>.*" --no-interaction --no-update
-            -   run: COMPOSER_MEMORY_LIMIT=-1 composer require "sylius/sylius:<< parameters.sylius_version >>.*" --no-interaction --no-update
-            -   run: COMPOSER_MEMORY_LIMIT=-1 composer update --no-interaction --prefer-dist
+                # use whole Symfony framework to get all its packages with same version at once
+            -   run: composer require "symfony/symfony:<< parameters.symfony_version >>.*" --no-interaction --no-update
+            -   run: composer require "sylius/sylius:<< parameters.sylius_version >>.*" --no-interaction --no-update
+            -   run: composer update --no-interaction --prefer-dist
 
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
