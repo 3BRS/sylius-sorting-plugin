@@ -49,7 +49,7 @@ jobs:
             -   restore_cache:
                     keys:
                         - vendor-cache-prefer-dist-<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
-            -   run: composer update --no-interaction --prefer-dist
+            -   run: COMPOSER_MEMORY_LIMIT=-1 composer update --no-interaction --prefer-dist
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
             -   save_cache:
@@ -73,7 +73,7 @@ jobs:
             -   restore_cache:
                     keys:
                         - vendor-cache-prefer-lowest-<< parameters.php_version >>-{{ checksum "composer.json" }}-{{ checksum "tests/Application/package.json" }}
-            -   run: composer update --no-interaction --prefer-lowest
+            -   run: COMPOSER_MEMORY_LIMIT=-1 composer update --no-interaction --prefer-lowest
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
             -   save_cache:
