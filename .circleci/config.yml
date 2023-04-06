@@ -31,14 +31,18 @@ jobs:
                 type: string
         docker:
             -   image: webdevops/php-nginx:<< parameters.php_version >>-alpine
+                environment:
+                    - DATABASE_URL=mysql://root:pass_root@127.0.0.1:3306/3brs_sylius_sorting_plugin_%kernel.environment%?serverVersion=8.0
             -   image: cimg/mysql:8.0
                 environment:
+                    MYSQL_ROOT_PASSWORD: pass_root
                     MYSQL_USER: sylius
                     MYSQL_PASSWORD: pass
         steps:
             - checkout
             -   run: apk update
-            -   run: apk add yarn
+            # 'mariadb-connector-c' to avoid ERROR 1045 (28000): Plugin caching_sha2_password could not be loaded: Error loading shared library /usr/lib/mariadb/plugin/caching_sha2_password.so: No such file or directory
+            -   run: apk add yarn mysql-client mariadb-connector-c
             -   run: composer self-update
             -   run: composer require "sylius/sylius:<< parameters.sylius_version >>.*" --no-interaction --no-update
 
@@ -57,8 +61,9 @@ jobs:
                         - ./vendor
                         - ./tests/Application/node_modules
             -   run:
-                    name: Wait for database service on the tcp protocol
-                    command: dockerize -wait tcp://localhost:3306 -timeout 1m
+                    name: Wait for database
+                    command: timeout 60s bash -c -- 'while ! nc -z localhost 3306; do sleep 0.1; done' \
+                        && timeout 30s bash -c -- 'mysql --user=sylius --password=pass --host=localhost --port=3306 -e "exit"'
             -   run: (cd tests/Application && bin/console doctrine:database:create --env=test -vvv)
             -   run: (cd tests/Application && bin/console doctrine:schema:create --env=test -vvv)
             -   run: (cd tests/Application && bin/console cache:clear --env=test -vvv)
