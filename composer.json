@@ -76,6 +76,10 @@
         ],
         "test": [
             "bin/behat"
+        ],
+        "check": [
+            "@analyze",
+            "@test"
         ]
     }
 }
