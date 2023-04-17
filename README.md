@@ -80,7 +80,7 @@ You can use Docker for local development and testing
 
 ```bash
 docker compose up
-docker compose exec -u www-data php_sylius_sorting bash
+docker compose exec -u www-data php bash
 ```
 
 License
