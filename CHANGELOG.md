@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## v2.0.0 (2023-05-17)
+
+### Breaking changes
+
+- Removed support for Symfony ^4.4|^5.2, Sylius 1.8|1.9|1.10|1.11, PHP 7.3|7.4
+
+### News
+
+- Add support for Sylius 1.12, Symfony ^5.3|^6.0 PHP 8.1|8.2
+
 ## v1.2.1 (2021-09-29)
 
 #### Details

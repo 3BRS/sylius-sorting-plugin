@@ -12,7 +12,7 @@
 
 docker-compose.override.yaml
 docker-compose.override.dist.yaml
-docker-compose.yaml
+/docker-compose.y*ml
 /bin-docker/
 /deploy/
 /docker/
