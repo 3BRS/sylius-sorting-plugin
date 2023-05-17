@@ -5,29 +5,25 @@ declare(strict_types=1);
 namespace ThreeBRS\SortingPlugin\Service;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Sylius\Component\Core\Model\ProductTaxonInterface;
+use Sylius\Component\Taxonomy\Model\TaxonInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use ThreeBRS\SortingPlugin\Event\SortingPluginEvents;
 use ThreeBRS\SortingPlugin\Service\Exception\ProductPositionsUpdaterException;
+use Throwable;
 
 class ProductPositionsUpdater
 {
-    private ?FlashBagInterface $sessionBag = null;
-
-    /**
-     * @var array<int|string, int> Key: PK, Value: index
-     */
-    private array $identifiersPositionsMap = [];
-
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private RouterInterface $router,
         private EventDispatcherInterface $eventDispatcher,
         private TranslatorInterface $translator,
+        private LoggerInterface $logger,
     )
     {
     }
@@ -35,19 +31,26 @@ class ProductPositionsUpdater
     /**
      * @throws ProductPositionsUpdaterException
      */
-    public function process(Request $request): string
+    public function process(Request $request): ?TaxonInterface
     {
-        $this->initialize($request);
+        $sessionBag = $this->getSessionBag($request);
 
-        if ($this->identifiersPositionsMap === []) {
-            $this->setSessionError('threebrs.ui.sortingPlugin.chooseTaxon');
+        /**
+         * @var array<int|string, int> $identifiersPositionsMap Key: PK, Value: index
+         */
+        $identifiersPositionsMap = array_flip(array_values($request->get('id', [])));
+
+        if ($identifiersPositionsMap === []) {
+            $this->setSessionError('threebrs.ui.sortingPlugin.chooseTaxon', $sessionBag);
+
+            return null;
         }
 
         $productTaxonCollection = $this->entityManager
             ->getRepository(ProductTaxonInterface::class)
-            ->findBy(['id' => array_keys($this->identifiersPositionsMap)]);
+            ->findBy(['id' => array_keys($identifiersPositionsMap)]);
 
-        if (count($productTaxonCollection) !== count($this->identifiersPositionsMap)) {
+        if (count($productTaxonCollection) !== count($identifiersPositionsMap)) {
             throw new ProductPositionsUpdaterException('Required identifiers set is invalid.');
         }
 
@@ -56,62 +59,63 @@ class ProductPositionsUpdater
         foreach ($productTaxonCollection as $productTaxon) {
             assert($productTaxon instanceof ProductTaxonInterface);
             $taxon ??= $productTaxon->getTaxon();
-            $productTaxon->setPosition($this->identifiersPositionsMap[$productTaxon->getId()] ?? 0);
+            $productTaxon->setPosition($identifiersPositionsMap[$productTaxon->getId()] ?? 0);
         }
 
         if ($taxon === null) {
-            $this->setSessionError('threebrs.ui.sortingPlugin.noProductMessage');
+            $this->setSessionError('threebrs.ui.sortingPlugin.noProductMessage', $sessionBag);
 
-            return $this->router->generate('threebrs_admin_sorting_index');
+            return null;
+        }
+
+        foreach ($productTaxonCollection as $productTaxon) {
+            $productTaxon->setPosition($identifiersPositionsMap[$productTaxon->getId()] ?? 0);
+            $this->entityManager->persist($productTaxon);
         }
 
         $this->entityManager->flush();
-        $this->setSessionSuccess('threebrs.ui.sortingPlugin.successMessage');
-        $this->eventDispatcher->dispatch(new GenericEvent($taxon), 'threebrs-sorting-products-after-persist');
 
-        return $this->router->generate('threebrs_admin_sorting_products', ['taxonId' => $taxon->getId()]);
+        $this->setSessionSuccess('threebrs.ui.sortingPlugin.successMessage', $sessionBag);
+        $this->eventDispatcher->dispatch(
+            new GenericEvent($taxon),
+            SortingPluginEvents::SORTING_PRODUCTS_AFTER_PERSIST
+        );
+
+        return $taxon;
     }
 
-    /**
-     * @throws ProductPositionsUpdaterException
-     */
     private function prepareSessionMessage(string $key): string
     {
-        if ($this->sessionBag === null) {
-            throw new ProductPositionsUpdaterException('Session\'s state is corrupted.');
-        }
+        try {
+            return $this->translator->trans($key);
+        } catch (Throwable $throwable) {
+            $this->logger->error($throwable, ['throwable' => $throwable, 'key' => $key]);
 
-        return $this->translator->trans($key);
+            return $key;
+        }
     }
 
-    /**
-     * @throws ProductPositionsUpdaterException
-     */
-    private function setSessionError(string $messageKey): void
+    private function setSessionError(string $messageKey, FlashBagInterface $sessionBag): void
     {
-        $this->sessionBag->add(
+        $sessionBag->add(
             'error',
             $this->prepareSessionMessage($messageKey)
         );
     }
 
-    /**
-     * @throws ProductPositionsUpdaterException
-     */
-    private function setSessionSuccess(string $messageKey): void
+    private function setSessionSuccess(string $messageKey, FlashBagInterface $sessionBag): void
     {
-        $this->sessionBag->add(
+        $sessionBag->add(
             'success',
             $this->prepareSessionMessage($messageKey),
         );
     }
 
-    private function initialize(Request $request): void
+    private function getSessionBag(Request $request): FlashBagInterface
     {
         $sessionBag = $request->getSession()->getBag('flashes');
         assert($sessionBag instanceof FlashBagInterface);
-        $this->sessionBag = $sessionBag;
 
-        $this->identifiersPositionsMap = array_flip(array_values($request->get('id', [])));
+        return $sessionBag;
     }
 }

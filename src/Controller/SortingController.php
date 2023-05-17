@@ -7,6 +7,7 @@ namespace ThreeBRS\SortingPlugin\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
 use ThreeBRS\SortingPlugin\Service\ProductPositionsUpdater;
 use ThreeBRS\SortingPlugin\Service\TaxonsAccessor;
 use Twig\Environment;
@@ -17,6 +18,7 @@ class SortingController
         private Environment $templatingEngine,
         private TaxonsAccessor $taxonsAccessor,
         private ProductPositionsUpdater $productPositionsUpdater,
+        private RouterInterface $router,
     )
     {
     }
@@ -47,6 +49,11 @@ class SortingController
 
     public function savePositions(Request $request): RedirectResponse
     {
-        return new RedirectResponse($this->productPositionsUpdater->process($request));
+        $processedTaxon = $this->productPositionsUpdater->process($request);
+        $redirectUrl = $processedTaxon !== null
+            ? $this->router->generate('threebrs_admin_sorting_products', ['taxonId' => $processedTaxon->getId()])
+            : $this->router->generate('threebrs_admin_sorting_index');
+
+        return new RedirectResponse($redirectUrl);
     }
 }
