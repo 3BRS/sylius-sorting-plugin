@@ -3,6 +3,7 @@
         <img src="https://3brs1.fra1.cdn.digitaloceanspaces.com/3brs/logo/3BRS-logo-sylius-200.png"/>
     </a>
 </p>
+
 <h1 align="center">
 Sorting Plugin
 <br />
@@ -31,14 +32,22 @@ Sorting Plugin
 
 ## Installation
 
-1. Run `$ composer require 3brs/sylius-sorting-plugin`.
-2. Register `\ThreeBRS\SortingPlugin\ThreeBRSSyliusSortingPlugin` in your Kernel.
-3. Import `@ThreeBRSSyliusSortingPlugin/Resources/config/routing.yml` in the routing.yml.
-	```yaml
-	threebrs_sorting:
-	    resource: "@ThreeBRSSyliusSortingPlugin/Resources/config/routing.yml"
-	    prefix: /admin
-	```
+1. Run `$ composer require 3brs/sylius-sorting-plugin`
+1. Add plugin class to your `config/bundles.php`
+
+   ```php
+   return [
+      ...
+      ThreeBRS\SortingPlugin\ThreeBRSSyliusSortingPlugin::class => ['all' => true],
+   ];
+   ```
+
+1. Import `@ThreeBRSSyliusSortingPlugin/Resources/config/routing.yml` in the `routing.yml`
+   ```yaml
+   threebrs_sorting:
+       resource: "@ThreeBRSSyliusSortingPlugin/Resources/config/routing.yml"
+       prefix: /admin
+   ```
 
 ## Usage
 
@@ -52,21 +61,40 @@ Sorting Plugin
 
 ### Usage
 
-- Create symlink from .env.dist to .env or create your own .env file
-- Develop your plugin in `/src`
-- See `bin/` for useful commands
+- Alter plugin in `/src`
+- See `bin/` dir for useful commands
 
 ### Testing
 
 After your changes you must ensure that the tests are still passing.
 
 ```bash
-$ composer install
-$ bin/console doctrine:schema:create -e test
-$ bin/behat
-$ bin/phpstan.sh
-$ bin/ecs.sh
+composer install
+bin/console doctrine:database:create --if-not-exists --env=test
+bin/console doctrine:schema:update --complete --force --env=test
+yarn --cwd tests/Application install
+yarn --cwd tests/Application build
+
+bin/behat
+bin/phpstan.sh
+bin/ecs.sh
+vendor/bin/phpspec run
 ```
+
+### Opening Sylius with your plugin
+
+1. Install symfony CLI command: https://symfony.com/download
+    - hint: for Docker (with Ubuntu) use _Debian/Ubuntu — APT based
+      Linux_ installation steps as `root` user and without `sudo` command
+        - you may need to install `curl` first ```apt-get update && apt-get install curl --yes```
+2. Run app
+
+```bash
+(cd tests/Application && APP_ENV=test bin/console sylius:fixtures:load)
+(cd tests/Application && APP_ENV=test symfony server:start --dir=public --port=8080)
+```
+
+- change `APP_ENV` to `dev` if you need it
 
 License
 -------

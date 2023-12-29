@@ -1,0 +1,4 @@
+suites:
+    main:
+        namespace: ThreeBRS\SortingPlugin
+        psr4_prefix: ThreeBRS\SortingPlugin

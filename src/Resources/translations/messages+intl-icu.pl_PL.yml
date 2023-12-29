@@ -1,0 +1,11 @@
+threebrs:
+    ui:
+        sortingPlugin:
+            header: Sortowanie produktów
+            menuTitle: Sortowanie produktów
+            subHeader: Wybierz takson i przeciągnij i upuść karty produktów. Po zakończeniu kliknij Zapisz pozycje.
+            chooseTaxon: Wybierz takson
+            noProducts: Brak produktów w taksonie
+            successMessage: Sukces, produkty zostały posortowane.
+            noProductMessage: Brak produktu do sortowania.
+            toggleTaxons: Przełącz taksony
