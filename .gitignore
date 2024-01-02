@@ -1,6 +1,5 @@
+/.env
 /.idea
-/vendor/
-/node_modules/
 /composer.lock
 /symfony.lock
 
@@ -14,7 +13,6 @@ docker-compose.override.y*ml
 /deploy/
 /docker/
 
-yarn-error.log
 /supervisord.log
 
 ###> symfony/framework-bundle ###
