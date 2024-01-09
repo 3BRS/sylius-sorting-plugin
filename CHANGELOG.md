@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v1.3.0 (2023-01-05)
+
+#### Details
+
+- Add support for Sylius 1.11|1.12, Symfony ^5.4|^6.0, PHP ^8.0
+- Drop support for Sylius <= 1.10 and consequentially for Symfony <= 5.3, <= PHP 7.4
+
 ## v1.2.1 (2021-09-29)
 
 #### Details

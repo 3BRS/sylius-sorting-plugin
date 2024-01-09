@@ -1,0 +1,11 @@
+threebrs:
+    ui:
+        sortingPlugin:
+            header: Tri des produits
+            menuTitle: Tri des produits
+            subHeader: Sélectionnez le taxon et faites glisser et déposez les fiches produits. Une fois terminé, cliquez sur Enregistrer les positions.
+            chooseTaxon: Choisissez un taxon
+            noProducts: Aucun produit dans le taxon
+            successMessage: Succès, les produits ont été triés.
+            noProductMessage: Aucun produit à trier.
+            toggleTaxons: Changer les taxons

@@ -12,29 +12,14 @@ use Tests\ThreeBRS\SortingPlugin\Behat\Pages\Admin\Sorting\SortingPageInterface;
 
 final class ManagingSortingContext implements Context
 {
-    /** @var SortingPageInterface */
-    private $sortingPage;
-
-    /** @var NotificationCheckerInterface */
-    private $notificationChecker;
-
-    /** @var TaxonRepositoryInterface */
-    private $taxonRepository;
-
-    public function __construct(
-        SortingPageInterface $sortingPage,
-        NotificationCheckerInterface $notificationChecker,
-        TaxonRepositoryInterface $taxonRepository
-    ) {
-        $this->sortingPage = $sortingPage;
-        $this->notificationChecker = $notificationChecker;
-        $this->taxonRepository = $taxonRepository;
+    public function __construct(private SortingPageInterface $sortingPage, private NotificationCheckerInterface $notificationChecker, private TaxonRepositoryInterface $taxonRepository)
+    {
     }
 
     /**
      * @Given I open the :arg1 taxon sorting page
      */
-    public function iOpenTheTaxonSortingPage($arg1)
+    public function iOpenTheTaxonSortingPage(string $arg1): void
     {
         $taxon = $this->taxonRepository->findOneBy(['code' => $arg1]);
         $this->sortingPage->open(['taxonId' => $taxon->getId()]);
@@ -43,7 +28,7 @@ final class ManagingSortingContext implements Context
     /**
      * @When I save position
      */
-    public function iSavePosition()
+    public function iSavePosition(): void
     {
         $this->sortingPage->saveSorting();
     }
@@ -51,11 +36,11 @@ final class ManagingSortingContext implements Context
     /**
      * @Then I should be notified that the products has been sorted
      */
-    public function iShouldBeNotifiedThatTheProductsHasBeenSorted()
+    public function iShouldBeNotifiedThatTheProductsHasBeenSorted(): void
     {
         $this->notificationChecker->checkNotification(
             'Success, products has been sorted.',
-            NotificationType::success()
+            NotificationType::success(),
         );
     }
 
@@ -63,7 +48,7 @@ final class ManagingSortingContext implements Context
      * @Given /^"([^"]*)" product is in 1st position$/
      * @Then I should see the :arg1 in 1st position
      */
-    public function iShouldSeeTheInStPosition($arg1)
+    public function iShouldSeeTheInStPosition(string $arg1): void
     {
         $this->sortingPage->getPosition($arg1, 1);
     }
@@ -71,7 +56,7 @@ final class ManagingSortingContext implements Context
     /**
      * @Then I should see :arg1 disabled
      */
-    public function iShouldSeeDisabled($arg1)
+    public function iShouldSeeDisabled(string $arg1): void
     {
         $this->sortingPage->getState($arg1);
     }
