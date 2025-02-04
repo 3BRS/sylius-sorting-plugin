@@ -1,15 +1,15 @@
 threebrs_admin_sorting_index:
     path: /sorting
     defaults:
-        _controller: ThreeBRS\SortingPlugin\Controller\SortingController:index
+        _controller: ThreeBRS\SortingPlugin\Controller\SortingController::index
 
 threebrs_admin_sorting_products_save:
     path: /sorting/save
     defaults:
-        _controller: ThreeBRS\SortingPlugin\Controller\SortingController:savePositions
+        _controller: ThreeBRS\SortingPlugin\Controller\SortingController::savePositions
 
 threebrs_admin_sorting_products:
     path: /sorting/taxon/{taxonId}
     defaults:
-        _controller: ThreeBRS\SortingPlugin\Controller\SortingController:products
+        _controller: ThreeBRS\SortingPlugin\Controller\SortingController::products
 

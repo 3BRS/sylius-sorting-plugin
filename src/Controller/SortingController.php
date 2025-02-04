@@ -53,7 +53,7 @@ class SortingController
         EventDispatcherInterface $eventDispatcher,
         RouterInterface $router,
         FlashBagInterface $flashBag,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
     ) {
         $this->templatingEngine = $templatingEngine;
         $this->taxonRepository = $taxonRepository;
@@ -69,8 +69,8 @@ class SortingController
     {
         return new Response(
             $this->templatingEngine->render(
-                '@ThreeBRSSyliusSortingPlugin/index.html.twig'
-            )
+                '@ThreeBRSSyliusSortingPlugin/index.html.twig',
+            ),
         );
     }
 
@@ -83,7 +83,7 @@ class SortingController
 
         $productsTaxons = $this->productTaxonRepository->findBy(
             ['taxon' => $taxon],
-            ['position' => 'asc']
+            ['position' => 'asc'],
         );
 
         return new Response(
@@ -92,8 +92,8 @@ class SortingController
                 [
                     'taxon' => $taxon,
                     'productsTaxons' => $productsTaxons,
-                ]
-            )
+                ],
+            ),
         );
     }
 
@@ -102,8 +102,9 @@ class SortingController
         $i = 0;
         $taxon = null;
 
-        if ($request->request->get('id') !== null) {
-            foreach ($request->request->get('id') as $id) {
+        $ids = $request->request->get('id');
+        if ($ids !== null) {
+            foreach ((array) $ids as $id) {
                 $productTaxon = $this->productTaxonRepository->find($id);
                 assert($productTaxon instanceof ProductTaxonInterface);
                 $productTaxon->setPosition($i);

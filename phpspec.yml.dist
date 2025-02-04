@@ -1,0 +1,4 @@
+suites:
+    main:
+        namespace: ThreeBRS\SyliusContactFormPlugin
+        psr4_prefix: ThreeBRS\SyliusContactFormPlugin

@@ -11,12 +11,12 @@ default:
             sessions:
                 symfony:
                     symfony: ~
-            show_auto: false
+            show_auto: false # do not automatically open browser on error
 
         FriendsOfBehat\SymfonyExtension:
             bootstrap: tests/Application/config/bootstrap.php
             kernel:
-                class: Tests\ThreeBRS\SortingPlugin\Application\Kernel
+                class: Tests\ThreeBRS\SortingPlugin\Kernel
 
         FriendsOfBehat\VariadicExtension: ~
 
