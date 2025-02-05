@@ -7,27 +7,30 @@ namespace ThreeBRS\SortingPlugin\Controller;
 use Doctrine\ORM\EntityManagerInterface;
 use Sylius\Component\Core\Model\ProductTaxonInterface;
 use Sylius\Component\Core\Repository\ProductTaxonRepositoryInterface;
+use Sylius\Component\Taxonomy\Model\TaxonInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\GenericEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use ThreeBRS\SortingPlugin\Controller\Partials\GetFlashBagTrait;
 use Twig\Environment;
 
 class SortingController
 {
+    use GetFlashBagTrait;
+
     /** @var Environment */
     private $templatingEngine;
 
-    /** @var TaxonRepositoryInterface */
+    /** @var TaxonRepositoryInterface<TaxonInterface> */
     private $taxonRepository;
 
-    /** @var ProductTaxonRepositoryInterface */
+    /** @var ProductTaxonRepositoryInterface<ProductTaxonInterface> */
     private $productTaxonRepository;
 
     /** @var EntityManagerInterface */
@@ -39,12 +42,13 @@ class SortingController
     /** @var RouterInterface */
     private $router;
 
-    /** @var FlashBagInterface */
-    private $flashBag;
-
     /** @var TranslatorInterface */
     private $translator;
 
+    /**
+     * @param TaxonRepositoryInterface<TaxonInterface> $taxonRepository
+     * @param ProductTaxonRepositoryInterface<ProductTaxonInterface> $productTaxonRepository
+     */
     public function __construct(
         Environment $templatingEngine,
         TaxonRepositoryInterface $taxonRepository,
@@ -52,7 +56,6 @@ class SortingController
         EntityManagerInterface $entityManager,
         EventDispatcherInterface $eventDispatcher,
         RouterInterface $router,
-        FlashBagInterface $flashBag,
         TranslatorInterface $translator,
     ) {
         $this->templatingEngine = $templatingEngine;
@@ -61,7 +64,6 @@ class SortingController
         $this->entityManager = $entityManager;
         $this->eventDispatcher = $eventDispatcher;
         $this->router = $router;
-        $this->flashBag = $flashBag;
         $this->translator = $translator;
     }
 
@@ -102,9 +104,8 @@ class SortingController
         $i = 0;
         $taxon = null;
 
-        $ids = $request->request->get('id');
-        if ($ids !== null) {
-            foreach ((array) $ids as $id) {
+        if ($request->request->has('id')) {
+            foreach ($request->request->all('id') as $id) {
                 $productTaxon = $this->productTaxonRepository->find($id);
                 assert($productTaxon instanceof ProductTaxonInterface);
                 $productTaxon->setPosition($i);
@@ -121,7 +122,7 @@ class SortingController
 
         if ($taxon !== null) {
             $message = $this->translator->trans('threebrs.ui.sortingPlugin.successMessage');
-            $this->flashBag->add('success', $message);
+            $this->getFlashBag($request)->add('success', $message);
 
             $redirectUrl = $this->router->generate('threebrs_admin_sorting_products', ['taxonId' => $taxon->getId()]);
 
@@ -130,7 +131,7 @@ class SortingController
             $this->eventDispatcher->dispatch($event, 'threebrs-sorting-products-after-persist');
         } else {
             $message = $this->translator->trans('threebrs.ui.sortingPlugin.noProductMessage');
-            $this->flashBag->add('error', $message);
+            $this->getFlashBag($request)->add('error', $message);
 
             $redirectUrl = $this->router->generate('threebrs_admin_sorting_index');
         }

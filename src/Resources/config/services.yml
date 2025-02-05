@@ -20,4 +20,3 @@ services:
             $eventDispatcher: '@event_dispatcher'
             $router: '@router'
             $translator: '@translator'
-            $flashBag: '@session.flash_bag'
