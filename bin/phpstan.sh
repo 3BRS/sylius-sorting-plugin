@@ -12,5 +12,5 @@ XDEBUG_MODE=off vendor/bin/phpstan analyse \
     --memory-limit 1G \
     --debug \
     --level max \
-    src tests
+    src tests \
     "$@"

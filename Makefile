@@ -34,5 +34,9 @@ static: install phpstan ecs lint
 
 ci: init static behat
 
+run:
+	docker compose up --detach
+
 php-bash:
+	@make run
 	docker compose exec --user 1000:1000 php bash
