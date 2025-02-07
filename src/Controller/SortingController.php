@@ -24,47 +24,19 @@ class SortingController
 {
     use GetFlashBagTrait;
 
-    /** @var Environment */
-    private $templatingEngine;
-
-    /** @var TaxonRepositoryInterface<TaxonInterface> */
-    private $taxonRepository;
-
-    /** @var ProductTaxonRepositoryInterface<ProductTaxonInterface> */
-    private $productTaxonRepository;
-
-    /** @var EntityManagerInterface */
-    private $entityManager;
-
-    /** @var EventDispatcherInterface */
-    private $eventDispatcher;
-
-    /** @var RouterInterface */
-    private $router;
-
-    /** @var TranslatorInterface */
-    private $translator;
-
     /**
      * @param TaxonRepositoryInterface<TaxonInterface> $taxonRepository
      * @param ProductTaxonRepositoryInterface<ProductTaxonInterface> $productTaxonRepository
      */
     public function __construct(
-        Environment $templatingEngine,
-        TaxonRepositoryInterface $taxonRepository,
-        ProductTaxonRepositoryInterface $productTaxonRepository,
-        EntityManagerInterface $entityManager,
-        EventDispatcherInterface $eventDispatcher,
-        RouterInterface $router,
-        TranslatorInterface $translator,
+        private Environment $templatingEngine,
+        private TaxonRepositoryInterface $taxonRepository,
+        private ProductTaxonRepositoryInterface $productTaxonRepository,
+        private EntityManagerInterface $entityManager,
+        private EventDispatcherInterface $eventDispatcher,
+        private RouterInterface $router,
+        private TranslatorInterface $translator,
     ) {
-        $this->templatingEngine = $templatingEngine;
-        $this->taxonRepository = $taxonRepository;
-        $this->productTaxonRepository = $productTaxonRepository;
-        $this->entityManager = $entityManager;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->router = $router;
-        $this->translator = $translator;
     }
 
     public function index(): Response

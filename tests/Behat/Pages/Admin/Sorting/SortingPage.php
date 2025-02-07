@@ -38,7 +38,7 @@ final class SortingPage extends SymfonyPage implements SortingPageInterface
     {
         $Page = $this->getSession()->getPage();
         $elementA = $Page->find('css', '#sortableProducts .sortableItem:nth-child(1)')->getHtml();
-        if (strpos($elementA, 'style="opacity: 0.5') == false) {
+        if (!str_contains($elementA, 'style="opacity: 0.5')) {
             throw new \RuntimeException(sprintf($elementA));
         }
     }

@@ -8,6 +8,3 @@ parameters:
 
     excludePaths:
         - 'tests/'
-
-    ignoreErrors:
-        - '#TaxonRepositoryInterface is not generic#'

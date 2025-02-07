@@ -12,23 +12,12 @@ use Tests\ThreeBRS\SortingPlugin\Behat\Pages\Admin\Sorting\SortingPageInterface;
 
 final class ManagingSortingContext implements Context
 {
-    /** @var SortingPageInterface */
-    private $sortingPage;
-
-    /** @var NotificationCheckerInterface */
-    private $notificationChecker;
-
-    /** @var TaxonRepositoryInterface */
-    private $taxonRepository;
-
     public function __construct(
-        SortingPageInterface $sortingPage,
-        NotificationCheckerInterface $notificationChecker,
-        TaxonRepositoryInterface $taxonRepository
-    ) {
-        $this->sortingPage = $sortingPage;
-        $this->notificationChecker = $notificationChecker;
-        $this->taxonRepository = $taxonRepository;
+        private SortingPageInterface $sortingPage,
+        private NotificationCheckerInterface $notificationChecker,
+        private TaxonRepositoryInterface $taxonRepository
+    )
+    {
     }
 
     /**
