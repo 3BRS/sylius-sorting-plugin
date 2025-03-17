@@ -31,8 +31,6 @@ services:
         networks:
             - sylius
 
-
-
     nginx:
         build: ./.docker/nginx
         depends_on:
@@ -58,7 +56,6 @@ services:
             - "${MYSQL_HOST_MAPPING_PORT:-0}:3306"
         networks:
             - sylius
-       
 
 #    postgres:
 #        image: postgres:${POSTGRES_VERSION:-16}-alpine
