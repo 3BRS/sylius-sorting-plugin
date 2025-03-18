@@ -43,7 +43,7 @@ jobs:
 
             # Sylius & Symfony in current matrix versions
             -   run: composer require "sylius/sylius:<< parameters.sylius_version >>.*" --no-interaction --no-update --no-scripts
-            -   run: grep -o -E '"(symfony/[^"]+)"' composer.json | grep -v -E '(symfony/flex|symfony/webpack-encore-bundle)' | xargs printf '%s:<< parameters.symfony_version >>.* '| xargs composer require --no-interaction --no-update
+            -   run: grep -o -E '"(symfony/[^"]+)"' composer.json | grep -v -E '(symfony/flex|symfony/webpack-encore-bundle|symfony/debug-bundle|symfony/web-profiler-bundle)' | xargs printf '%s:<< parameters.symfony_version >>.* ' | xargs composer require --no-interaction --no-update
 
             -   run:
                     name: Wait for database
