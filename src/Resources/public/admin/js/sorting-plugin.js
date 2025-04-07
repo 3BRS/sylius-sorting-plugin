@@ -1,15 +1,17 @@
-(function ($) {
-	$.getScript('https://code.jquery.com/ui/1.12.1/jquery-ui.js', function() {
-		$('#sortableProducts').sortable({
-			items: '.sortableItem',
-			cursor: 'move',
-			placeholder: 'sortableItem-placeholder card',
-			tolerance: 'pointer',
-			revert: true,
-			parent: 'body',
-			sort: (event, ui)=>{
-				$('.sylius-flash-message').hide();
-			}
-		});
-	});
-})(jQuery);
+import Sortable from 'sortablejs';
+
+document.addEventListener('DOMContentLoaded', () => {
+  const sortableContainer = document.getElementById('sortableProducts');
+
+  if (sortableContainer) {
+    new Sortable(sortableContainer, {
+      animation: 150,
+      draggable: '.sortableItem',
+      ghostClass: 'sortableItem-placeholder',
+      onStart: () => {
+        const flashMessages = document.querySelectorAll('.sylius-flash-message');
+        flashMessages.forEach(msg => msg.style.display = 'none');
+      }
+    });
+  }
+});
