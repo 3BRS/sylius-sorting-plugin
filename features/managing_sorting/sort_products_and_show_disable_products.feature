@@ -25,4 +25,4 @@ Feature: Sort products and show disabled products
 	@ui
 	Scenario: Being able to see disable products
 		Given I open the "mens_jeans" taxon sorting page
-		Then I should see "Slim fit classic" disabled
+		Then I should see "Azure Dream Jeans" disabled

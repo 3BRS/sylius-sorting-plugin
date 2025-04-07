@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
+use Tests\ThreeBRS\SortingPlugin\Kernel;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
-use Tests\ThreeBRS\SortingPlugin\Kernel;
 
 require dirname(__DIR__) . '/config/bootstrap.php';
 
