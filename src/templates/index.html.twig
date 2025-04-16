@@ -1,0 +1,90 @@
+{% extends '@ThreeBRSSyliusSortingPlugin/layout/base.html.twig' %}
+
+{% block title %}{{ 'threebrs.ui.sortingPlugin.header'|trans }}{% endblock %}
+
+{% block content %}
+    <form method="post" action="{{ path('threebrs_admin_sorting_products_save') }}">
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h1 class="h3">
+                    <i class="bi bi-arrow-down-up-circle me-2"></i>
+                    {{ 'threebrs.ui.sortingPlugin.header'|trans }}
+                    <div class="text-muted small">{{ 'threebrs.ui.sortingPlugin.subHeader'|trans }}</div>
+                </h1>
+
+                {% if taxon is defined %}
+                    {% set breadcrumbs = [
+                        { label: 'sylius.ui.administration'|trans, url: path('sylius_admin_dashboard') },
+                        { label: 'threebrs.ui.sortingPlugin.header'|trans, url: path('threebrs_admin_sorting_index') },
+                        { label: taxon.name },
+                    ] %}
+                {% else %}
+                    {% set breadcrumbs = [
+                        { label: 'sylius.ui.administration'|trans, url: path('sylius_admin_dashboard') },
+                        { label: 'threebrs.ui.sortingPlugin.header'|trans },
+                    ] %}
+                {% endif %}
+
+                {% include '@SyliusAdmin/shared/helper/breadcrumbs.html.twig' with { 'breadcrumbs': breadcrumbs } %}
+            </div>
+
+            <div class="col-md-6 d-flex align-items-center justify-content-end">
+                <div class="btn-group">
+                    <label for="sort-tree-toggler" class="btn btn-outline-secondary">
+                        <i class="bi bi-list"></i> {{ 'threebrs.ui.sortingPlugin.toggleTaxons'|trans }}
+                    </label>
+
+                    {% set disableButton = taxon is not defined or (taxon is defined and productsTaxons|length == 0) %}
+                    <button type="submit"
+                            class="btn btn-primary {% if disableButton %}disabled{% endif %}"
+                            {% if disableButton %}disabled{% endif %}>
+                        <i class="bi bi-check-circle"></i> {{ 'sylius.ui.save_positions'|trans }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="sortPage">
+            <div class="form-check form-switch mb-3">
+                <input type="checkbox" class="form-check-input" checked id="sort-tree-toggler">
+                <label class="form-check-label" for="sort-tree-toggler">{{ 'threebrs.ui.sortingPlugin.toggleTaxons'|trans }}</label>
+            </div>
+
+            <div class="sortPage-tree mb-4">
+                {{ render(path('sylius_admin_partial_taxon_tree', {'template': '@ThreeBRSSyliusSortingPlugin/_taxonTree.html.twig'})) }}
+            </div>
+
+            <div class="sylius-product-index sortPage-products">
+                {% if taxon is defined %}
+                    {% if productsTaxons|length > 0 %}
+                        <div id="sortableProducts" class="row g-3">
+                            {% for productTaxon in productsTaxons %}
+                                {% set product = productTaxon.product %}
+                                <div class="col-md-4 sortableItem">
+                                    <div class="card h-100 {% if not product.enabled %}opacity-50{% endif %}">
+                                        <div class="card-body">
+                                            {{ include('@ThreeBRSSyliusSortingPlugin/_mainImage.html.twig') }}
+                                            <h5 class="card-title">{{ product.name }}</h5>
+                                            <p class="card-text d-flex justify-content-between align-items-center">
+                                                <a href="{{ path('sylius_admin_product_update', {'id': product.id}) }}"
+                                                   target="_blank" class="text-decoration-none me-2">
+                                                    <i class="bi bi-box-arrow-up-right"></i>
+                                                </a>
+                                                <span class="text-muted small">{{ product.code }}</span>
+                                            </p>
+                                            <input type="hidden" name="id[]" value="{{ productTaxon.id }}">
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ messages.info('threebrs.ui.sortingPlugin.noProducts') }}
+                    {% endif %}
+                {% else %}
+                    {{ messages.info('threebrs.ui.sortingPlugin.chooseTaxon') }}
+                {% endif %}
+            </div>
+        </div>
+    </form>
+{% endblock %}

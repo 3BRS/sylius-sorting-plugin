@@ -4,5 +4,5 @@ sylius_admin:
 
 
 threebrs_sorting:
-    resource: "@ThreeBRSSyliusSortingPlugin/Resources/config/routing.yml"
+    resource: "@ThreeBRSSyliusSortingPlugin/config/routing.yml"
     prefix: '/%sylius_admin.path_name%'
