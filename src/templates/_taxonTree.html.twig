@@ -1,13 +1,10 @@
 {% import _self as tree %}
-{# {% set taxon = hookable_metadata.context.taxon %}
- #}
+
 {% macro render(taxons) %}
     {% import _self as tree %}
-
+    
     <ul>
         {% for taxon in taxons %}
-{#             {{ dump(taxon.name, taxon.children|length) }}
- #}
             <li data-id="{{ taxon.id }}" {% if taxon.children is not empty %}data-sylius-js-tree-parent="{{ taxon.id }}"{% endif %}>
                 <div class="sylius-tree__item">
                     <div class="sylius-tree__icon" {% if taxon.children is not empty %}data-sylius-js-tree-trigger="{{ taxon.id }}"{% endif %}>
@@ -19,7 +16,9 @@
                         </a>
                     </div>
                 </div>
-                {{ tree.render(taxon.children) }}
+                {% if taxon.children is not empty %}
+                    {{ tree.render(taxon.children) }}
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
@@ -29,5 +28,5 @@
     <a href="#" class="sylius-tree__toggle-all" data-sylius-js-tree-trigger>
         <i class="icon">&bull;</i>{{ 'sylius.ui.toggle_all'|trans }}
     </a>
-    {{ tree.render([taxons]) }}
+    {{ tree.render(this.tree) }}
 </div>

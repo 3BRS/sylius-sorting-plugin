@@ -42,16 +42,9 @@ class SortingController
 
     public function index(): Response
     {
-
-        $taxons = $this->taxonRepository->findRootNodes();
-
             return new Response(
             $this->templatingEngine->render(
-                '@ThreeBRSSyliusSortingPlugin/index.html.twig'/* ,
-                [
-                    'taxon' => $taxons,
-                    'productsTaxons' => [],
-                ], */
+                '@ThreeBRSSyliusSortingPlugin/index.html.twig'
             ),
         );
     }

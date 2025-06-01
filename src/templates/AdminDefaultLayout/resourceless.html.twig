@@ -20,8 +20,6 @@
 
 {# Block for title, using configuration title #}
 {% block title %}
-                    {{ ux_icon('bi:arrow-down-up', {class: 'w-4 h-4 text-primary'}) }}
-
 	{{ configuration.title|trans }} | {{ parent() }}
 {% endblock %}
 

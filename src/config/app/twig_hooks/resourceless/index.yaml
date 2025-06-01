@@ -68,3 +68,8 @@ sylius_twig_hooks:
             sorting_content:
                 template: '@ThreeBRSSyliusSortingPlugin/admin/sorting_content.html.twig'
                 priority: 0
+            #tree:
+                #component: 'sylius_admin:taxon:tree'
+                #props:
+                    #template: '@SyliusAdmin/taxon/sections/tree.html.twig'
+                #priority: 0
