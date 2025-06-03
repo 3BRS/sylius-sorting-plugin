@@ -50,52 +50,40 @@ jobs:
                     command: timeout 60s bash -c -- 'while ! nc -z 127.0.0.1 3306; do sleep 0.1; done' \
                         && timeout 30s bash -c -- 'mysql --user=sylius --password=pass --host=127.0.0.1 --port=3306 -e "exit"'
 
+            # Replace your yarn install and build steps with these:
+
             # COMPOSER PREFER LOWEST (oldest possible) #
             -   run: rm -fr vendor composer.lock
             -   run: composer update --no-interaction --prefer-lowest --no-plugins
 
-            # DEBUG STEP 1: Check if Sylius admin bundle exists after composer install
+            # Fix the missing sortablejs and @tabler/core path issues
             -   run:
-                    name: Debug - Check Sylius AdminBundle location
-                    command: |
-                        echo "=== Checking AdminBundle path ==="
-                        ls -la tests/Application/../../vendor/sylius/sylius/src/Sylius/Bundle/ || echo "Bundle directory not found"
-                        ls -la tests/Application/../../vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/ || echo "AdminBundle not found"
-                        echo "=== Checking AdminBundle Resources ==="
-                        ls -la tests/Application/../../vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/ || echo "Resources not found"
-
-            # DEBUG STEP 2: Clean and reinstall node modules
-            -   run:
-                    name: Clean node modules and yarn cache
+                    name: Install sortablejs and fix node modules
                     command: |
                         cd tests/Application
                         rm -rf node_modules yarn.lock
-                        yarn cache clean
+                        # Install sortablejs which is missing but referenced in sorting-entry.js
+                        yarn add sortablejs@^1.15.6
+                        # Ensure all dependencies are properly installed
+                        yarn install --check-files
 
-            # DEBUG STEP 3: Install with detailed logging
+            # Fix @tabler/core SCSS import path in Sylius admin
             -   run:
-                    name: Install yarn dependencies with debug
+                    name: Fix @tabler/core import path
                     command: |
                         cd tests/Application
-                        yarn install --check-files --verbose
+                        # Check current path structure
+                        ls -la node_modules/@tabler/core/
+                        # Fix the incorrect import path in Sylius admin main.scss
+                        # Change from "@tabler/core/src/scss/tabler.scss" to "@tabler/core/scss/tabler.scss"
+                        if [ -f node_modules/@sylius-ui/admin/Resources/assets/styles/main.scss ]; then
+                            sed -i 's|@tabler/core/src/scss/tabler.scss|@tabler/core/scss/tabler.scss|g' node_modules/@sylius-ui/admin/Resources/assets/styles/main.scss
+                            echo "Fixed @tabler/core import path"
+                        else
+                            echo "main.scss not found"
+                        fi
 
-            # DEBUG STEP 4: Check if @sylius-ui/admin was properly linked
-            -   run:
-                    name: Debug - Check @sylius-ui/admin linking
-                    command: |
-                        echo "=== Checking node_modules linking ==="
-                        ls -la tests/Application/node_modules/@sylius-ui/ || echo "@sylius-ui directory not found"
-                        ls -la tests/Application/node_modules/@sylius-ui/admin/ || echo "@sylius-ui/admin not linked"
-                        echo "=== Checking @tabler/core ==="
-                        ls -la tests/Application/node_modules/@tabler/ || echo "@tabler directory not found"
-                        ls -la tests/Application/node_modules/@tabler/core/ || echo "@tabler/core not found"
-
-            # Try to build and see what happens
-            -   run:
-                    name: Attempt build with error details
-                    command: |
-                        cd tests/Application
-                        yarn build || echo "Build failed - continuing to next debug step"
+            -   run: yarn --cwd tests/Application build
             # COMPOSER PREFER DIST #
             -   run: composer update --no-interaction --prefer-dist --no-plugins
             -   run: yarn --cwd tests/Application install
