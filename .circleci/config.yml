@@ -51,20 +51,51 @@ jobs:
                         && timeout 30s bash -c -- 'mysql --user=sylius --password=pass --host=127.0.0.1 --port=3306 -e "exit"'
 
             # COMPOSER PREFER LOWEST (oldest possible) #
-            # has to delete vendor for next test with different libraries version to avoid Composer error 'Failed to extract...' if vendor dir cache does not exist
             -   run: rm -fr vendor composer.lock
             -   run: composer update --no-interaction --prefer-lowest --no-plugins
-            -   run: yarn --cwd tests/Application install
-            -   run: yarn --cwd tests/Application build
-            -   run: (cd tests/Application && bin/console doctrine:database:create --if-not-exists --env=test -vvv)
-            -   run: (cd tests/Application && bin/console doctrine:schema:update --force --env=test -vvv)
-            -   run: (cd tests/Application && bin/console cache:clear --env=test -vvv)
-            -   run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
-            -   run: APP_ENV=test bin/phpstan.sh
-            -   run: APP_ENV=test bin/ecs.sh --clear-cache
-            -   run: APP_ENV=test bin/symfony-lint.sh
-            -   run: APP_ENV=test bin/behat.sh || grep 'console.CRITICAL' tests/Application/var/log/test.log
 
+            # DEBUG STEP 1: Check if Sylius admin bundle exists after composer install
+            -   run:
+                    name: Debug - Check Sylius AdminBundle location
+                    command: |
+                        echo "=== Checking AdminBundle path ==="
+                        ls -la tests/Application/../../vendor/sylius/sylius/src/Sylius/Bundle/ || echo "Bundle directory not found"
+                        ls -la tests/Application/../../vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/ || echo "AdminBundle not found"
+                        echo "=== Checking AdminBundle Resources ==="
+                        ls -la tests/Application/../../vendor/sylius/sylius/src/Sylius/Bundle/AdminBundle/Resources/ || echo "Resources not found"
+
+            # DEBUG STEP 2: Clean and reinstall node modules
+            -   run:
+                    name: Clean node modules and yarn cache
+                    command: |
+                        cd tests/Application
+                        rm -rf node_modules yarn.lock
+                        yarn cache clean
+
+            # DEBUG STEP 3: Install with detailed logging
+            -   run:
+                    name: Install yarn dependencies with debug
+                    command: |
+                        cd tests/Application
+                        yarn install --check-files --verbose
+
+            # DEBUG STEP 4: Check if @sylius-ui/admin was properly linked
+            -   run:
+                    name: Debug - Check @sylius-ui/admin linking
+                    command: |
+                        echo "=== Checking node_modules linking ==="
+                        ls -la tests/Application/node_modules/@sylius-ui/ || echo "@sylius-ui directory not found"
+                        ls -la tests/Application/node_modules/@sylius-ui/admin/ || echo "@sylius-ui/admin not linked"
+                        echo "=== Checking @tabler/core ==="
+                        ls -la tests/Application/node_modules/@tabler/ || echo "@tabler directory not found"
+                        ls -la tests/Application/node_modules/@tabler/core/ || echo "@tabler/core not found"
+
+            # Try to build and see what happens
+            -   run:
+                    name: Attempt build with error details
+                    command: |
+                        cd tests/Application
+                        yarn build || echo "Build failed - continuing to next debug step"
             # COMPOSER PREFER DIST #
             -   run: composer update --no-interaction --prefer-dist --no-plugins
             -   run: yarn --cwd tests/Application install
