@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace ThreeBRS\SortingPlugin\Controller;
 
 use Doctrine\ORM\EntityManagerInterface;
-use Mockery\Undefined;
 use Sylius\Component\Core\Model\ProductTaxonInterface;
 use Sylius\Component\Core\Repository\ProductTaxonRepositoryInterface;
 use Sylius\Component\Taxonomy\Model\TaxonInterface;
@@ -42,9 +41,9 @@ class SortingController
 
     public function index(): Response
     {
-            return new Response(
+        return new Response(
             $this->templatingEngine->render(
-                '@ThreeBRSSyliusSortingPlugin/index.html.twig'
+                '@ThreeBRSSyliusSortingPlugin/index.html.twig',
             ),
         );
     }
