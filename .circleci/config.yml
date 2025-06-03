@@ -50,40 +50,21 @@ jobs:
                     command: timeout 60s bash -c -- 'while ! nc -z 127.0.0.1 3306; do sleep 0.1; done' \
                         && timeout 30s bash -c -- 'mysql --user=sylius --password=pass --host=127.0.0.1 --port=3306 -e "exit"'
 
-            # Replace your yarn install and build steps with these:
-
             # COMPOSER PREFER LOWEST (oldest possible) #
+            # has to delete vendor for next test with different libraries version to avoid Composer error 'Failed to extract...' if vendor dir cache does not exist
             -   run: rm -fr vendor composer.lock
             -   run: composer update --no-interaction --prefer-lowest --no-plugins
-
-            # Fix the missing sortablejs and @tabler/core path issues
-            -   run:
-                    name: Install sortablejs and fix node modules
-                    command: |
-                        cd tests/Application
-                        rm -rf node_modules yarn.lock
-                        # Install sortablejs which is missing but referenced in sorting-entry.js
-                        yarn add sortablejs@^1.15.6
-                        # Ensure all dependencies are properly installed
-                        yarn install --check-files
-
-            # Fix @tabler/core SCSS import path in Sylius admin
-            -   run:
-                    name: Fix @tabler/core import path
-                    command: |
-                        cd tests/Application
-                        # Check current path structure
-                        ls -la node_modules/@tabler/core/
-                        # Fix the incorrect import path in Sylius admin main.scss
-                        # Change from "@tabler/core/src/scss/tabler.scss" to "@tabler/core/scss/tabler.scss"
-                        if [ -f node_modules/@sylius-ui/admin/Resources/assets/styles/main.scss ]; then
-                            sed -i 's|@tabler/core/src/scss/tabler.scss|@tabler/core/scss/tabler.scss|g' node_modules/@sylius-ui/admin/Resources/assets/styles/main.scss
-                            echo "Fixed @tabler/core import path"
-                        else
-                            echo "main.scss not found"
-                        fi
-
+            -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
+            -   run: (cd tests/Application && bin/console doctrine:database:create --if-not-exists --env=test -vvv)
+            -   run: (cd tests/Application && bin/console doctrine:schema:update --force --env=test -vvv)
+            -   run: (cd tests/Application && bin/console cache:clear --env=test -vvv)
+            -   run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
+            -   run: APP_ENV=test bin/phpstan.sh
+            -   run: APP_ENV=test bin/ecs.sh --clear-cache
+            -   run: APP_ENV=test bin/symfony-lint.sh
+            -   run: APP_ENV=test bin/behat.sh || grep 'console.CRITICAL' tests/Application/var/log/test.log
+
             # COMPOSER PREFER DIST #
             -   run: composer update --no-interaction --prefer-dist --no-plugins
             -   run: yarn --cwd tests/Application install
