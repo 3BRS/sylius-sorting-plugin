@@ -3,9 +3,9 @@
 {% macro render(taxons) %}
     {% import _self as tree %}
     
-    <ul>
+    <ul class="list-unstyled ms-2">
         {% for taxon in taxons %}
-            <li data-id="{{ taxon.id }}" {% if taxon.children is not empty %}data-sylius-js-tree-parent="{{ taxon.id }}"{% endif %}>
+            <li class="mb-1" data-id="{{ taxon.id }}" {% if taxon.children is not empty %}data-sylius-js-tree-parent="{{ taxon.id }}"{% endif %}>
                 <div class="sylius-tree__item">
                     <div class="sylius-tree__icon" {% if taxon.children is not empty %}data-sylius-js-tree-trigger="{{ taxon.id }}"{% endif %}>
                          {{ taxon.children is not empty ? ux_icon('bi:caret-down') : ux_icon('bi:chevron-right') }}
