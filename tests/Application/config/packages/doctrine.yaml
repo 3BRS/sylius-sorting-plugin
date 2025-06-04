@@ -12,13 +12,19 @@ doctrine:
         url: '%env(resolve:DATABASE_URL)%'
 
     orm:
-        auto_generate_proxy_classes: '%kernel.debug%'
-        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_generate_proxy_classes: true
+        enable_lazy_ghost_objects: true
+        report_fields_where_declared: true
+        validate_xml_mapping: true
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
+        annotation_reader:
+            ignore_annotations:
+                - "ORM\\MappedSuperclass"
         mappings:
             App:
                 is_bundle: false
                 type: attribute
                 dir: '%kernel.project_dir%/src/Entity'
-                prefix: 'Tests\ThreeBRS\SyliusPacketaPlugin\Entity'
+                prefix: 'Tests\ThreeBRS\SortingPlugin\Entity'
                 alias: App
