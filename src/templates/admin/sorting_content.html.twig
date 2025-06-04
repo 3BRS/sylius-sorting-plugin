@@ -72,18 +72,20 @@
                             {% for productTaxon in productsTaxons %}
                                 {% set product = productTaxon.product %}
                                 <div class="sortableItem col-md-6 col-lg-4">
-                                    <div class="card h-100">
-                                        <div class="card-body" style="{% if not product.enabled %}opacity: 0.5{% endif %}">
+                                    <div class="content card h-100">
+                                        <div class="header card-body" style="{% if not product.enabled %}opacity: 0.5{% endif %}">
                                             {{ include('@ThreeBRSSyliusSortingPlugin/_mainImage.html.twig') }}
                                             <h5 class="card-title">{{ product.name }}</h5>
-                                            <p class="card-text mb-1">
+                                        </div>
+                                        <div class="card-footer">
+                                            {# <p class="card-text mb-1"> #}
                                                 <a class="sortableItem-link"
                                                 href="{{ path('sylius_admin_product_update', {'id': product.id}) }}"
                                                 target="_blank">
                                                     <i class="bi bi-box-arrow-up-right"></i>
                                                 </a>
                                                 <span class="text-muted small">{{ product.code }}</span>
-                                            </p>
+                                            {# </p> #}
                                         </div>
                                         <input type="hidden" name="id[]" value="{{ productTaxon.id }}">
                                     </div>

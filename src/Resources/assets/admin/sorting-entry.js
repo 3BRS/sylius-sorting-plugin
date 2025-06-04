@@ -1,5 +1,6 @@
 import Sortable from 'sortablejs';
 
+
 document.addEventListener('DOMContentLoaded', () => {
   const sortableContainer = document.getElementById('sortableProducts');
 

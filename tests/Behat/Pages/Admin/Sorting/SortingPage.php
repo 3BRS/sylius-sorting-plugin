@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Tests\ThreeBRS\SortingPlugin\Behat\Pages\Admin\Sorting;
 
 use FriendsOfBehat\PageObjectExtension\Page\SymfonyPage;
+use Webmozart\Assert\Assert;
+
 
 final class SortingPage extends SymfonyPage implements SortingPageInterface
 {
@@ -25,14 +27,27 @@ final class SortingPage extends SymfonyPage implements SortingPageInterface
         ]);
     }
 
-    public function getPosition($arg1, int $int): void
-    {
-        $Page = $this->getSession()->getPage();
-        $firstE = $Page->find('css', '#sortableProducts .sortableItem:nth-child(' . $int . ') .content .header')->getText();
-        if ($firstE != $arg1) {
-            throw new \RuntimeException(sprintf($firstE));
-        }
-    }
+   public function getPosition($expectedProductName, int $position): void
+{
+    $page = $this->getSession()->getPage();
+    $element = $page->find('css', '#sortableProducts .sortableItem:nth-child(' . $position . ') .content .header');
+
+    Assert::notNull(
+        $element,
+        sprintf(
+            'Could not find product element at position %d using selector: "#sortableProducts .sortableItem:nth-child(%d) .content .header"',
+            $position,
+            $position
+        )
+    );
+
+    $actualText = trim($element->getText());
+    Assert::same(
+        $actualText,
+        $expectedProductName,
+        sprintf('Expected "%s" in position %d but found "%s".', $expectedProductName, $position, $actualText)
+    );
+}
 
     public function getState($arg1): void
     {
