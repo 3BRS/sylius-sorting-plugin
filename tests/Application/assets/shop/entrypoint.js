@@ -1,1 +1,1 @@
-import './js/greetings';
+import '../../../../assets/shop/entrypoint';

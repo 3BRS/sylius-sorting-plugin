@@ -1,23 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		   xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+<container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <defaults public="true" />
+        <!-- Put your Behat services here -->
 
-	<services>
-		<defaults public="true"/>
+        <service id="acme_sylius_example.context.ui.shop.welcome" class="Tests\Acme\SyliusExamplePlugin\Behat\Context\Ui\Shop\WelcomeContext">
+            <argument type="service" id="acme_sylius_example.page.shop.static_welcome" />
+            <argument type="service" id="acme_sylius_example.page.shop.dynamic_welcome" />
+        </service>
 
-		<service id="sylius.behat.context.ui.admin.sorting"
-				 class="Tests\ThreeBRS\SortingPlugin\Behat\Context\Ui\Admin\ManagingSortingContext">
-			<argument type="service" id="Tests\ThreeBRS\SortingPlugin\Behat\Pages\Admin\Sorting\SortingPageInterface"/>
-			<argument type="service" id="sylius.behat.notification_checker.admin"/>
-			<argument type="service" id="sylius.repository.taxon"/>
-		</service>
-
-		<service id="Tests\ThreeBRS\SortingPlugin\Behat\Pages\Admin\Sorting\SortingPageInterface"
-				 class="Tests\ThreeBRS\SortingPlugin\Behat\Pages\Admin\Sorting\SortingPage"
-				 parent="sylius.behat.symfony_page"
-				 public="true"
-		/>
-
-	</services>
+        <service id="acme_sylius_example.page.shop.static_welcome" class="Tests\Acme\SyliusExamplePlugin\Behat\Page\Shop\StaticWelcomePage" parent="sylius.behat.symfony_page" public="false" />
+        <service id="acme_sylius_example.page.shop.dynamic_welcome" class="Tests\Acme\SyliusExamplePlugin\Behat\Page\Shop\DynamicWelcomePage" parent="sylius.behat.symfony_page" public="false" />
+    </services>
 </container>

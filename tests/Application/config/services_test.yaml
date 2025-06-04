@@ -1,5 +1,4 @@
 imports:
-    #- { resource: "../../Behat/Resources/config/services.xml" }
     - { resource: "../../../vendor/sylius/sylius/src/Sylius/Behat/Resources/config/services.xml" }
     - { resource: "../../Behat/Resources/services.xml" }
 
@@ -7,10 +6,3 @@ imports:
 # see https://github.com/FriendsOfBehat/SymfonyExtension/issues/88
 services:
     Symfony\Component\BrowserKit\AbstractBrowser: '@test.client'
-
-    Tests\ThreeBRS\SortingPlugin\Behat\Context\Ui\Admin\ManagingSortingContext:
-        arguments:
-            $sortingPage: '@Tests\ThreeBRS\SortingPlugin\Behat\Pages\Admin\Sorting\SortingPageInterface'
-            $notificationChecker: '@sylius.behat.notification_checker.admin'
-            $taxonRepository: '@sylius.repository.taxon'
-        tags: ['fob.context_service']

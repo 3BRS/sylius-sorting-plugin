@@ -106,11 +106,9 @@ security:
             pattern: ^/media/cache/resolve
             security: false
 
-
         dev:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
 
     access_control:
         - { path: "%sylius.security.admin_regex%/forgotten-password", role: PUBLIC_ACCESS }
@@ -123,7 +121,7 @@ security:
 
         - { path: "%sylius.security.admin_regex%", role: ROLE_ADMINISTRATION_ACCESS }
         - { path: "%sylius.security.shop_regex%/account", role: ROLE_USER }
-        
+
         - { path: "%sylius.security.api_admin_route%/administrators/reset-password", role: PUBLIC_ACCESS }
         - { path: "%sylius.security.api_admin_regex%/.*", role: ROLE_API_ACCESS }
         - { path: "%sylius.security.api_admin_route%/administrators/token", role: PUBLIC_ACCESS }
