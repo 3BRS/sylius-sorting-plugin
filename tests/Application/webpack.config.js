@@ -12,14 +12,14 @@ const shopConfig = SyliusShop.getWebpackConfig(path.resolve(__dirname));
 
 // App shop config
 Encore
-.setOutputPath('public/build/app/shop')
-.setPublicPath('/build/app/shop')
-.addEntry('app-shop-entry', './assets/shop/entrypoint.js')
-.disableSingleRuntimeChunk()
-.cleanupOutputBeforeBuild()
-.enableSourceMaps(!Encore.isProduction())
-.enableVersioning(Encore.isProduction())
-.enableSassLoader()
+    .setOutputPath('public/build/app/shop')
+    .setPublicPath('/build/app/shop')
+    .addEntry('app-shop-entry', './assets/shop/entrypoint.js')
+    .disableSingleRuntimeChunk()
+    .cleanupOutputBeforeBuild()
+    .enableSourceMaps(!Encore.isProduction())
+    .enableVersioning(Encore.isProduction())
+    .enableSassLoader()
 ;
 
 const appShopConfig = Encore.getWebpackConfig();
@@ -31,20 +31,19 @@ Encore.reset();
 
 // App admin config
 Encore
-.setOutputPath('public/build/app/admin')
-.setPublicPath('/build/app/admin')
-.addEntry('app-admin-entry', './assets/admin/entrypoint.js')
-.addEntry('threebrs-sorting-admin', path.resolve(__dirname, '../../src/Resources/assets/admin/sorting-entry.js'))
-.disableSingleRuntimeChunk()
-.cleanupOutputBeforeBuild()
-.enableSourceMaps(!Encore.isProduction())
-.enableVersioning(Encore.isProduction())
-.enableSassLoader();
+    .setOutputPath('public/build/app/admin')
+    .setPublicPath('/build/app/admin')
+    .addEntry('app-admin-entry', './assets/admin/entrypoint.js')
+    .addEntry('threebrs-sorting-admin', path.resolve(__dirname, '../../src/Resources/assets/admin/sorting-entry.js'))
+    .disableSingleRuntimeChunk()
+    .cleanupOutputBeforeBuild()
+    .enableSourceMaps(!Encore.isProduction())
+    .enableVersioning(Encore.isProduction())
+    .enableSassLoader();
 
 const appAdminConfig = Encore.getWebpackConfig();
 
 appAdminConfig.externals = Object.assign({}, appAdminConfig.externals, { window: 'window', document: 'document' });
 appAdminConfig.name = 'app.admin';
 
-// Export all configurations
 module.exports = [shopConfig, adminConfig, appShopConfig, appAdminConfig];

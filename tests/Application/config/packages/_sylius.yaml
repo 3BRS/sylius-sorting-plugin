@@ -1,12 +1,8 @@
 imports:
     - { resource: "@SyliusCoreBundle/Resources/config/app/config.yml" }
-
     - { resource: "@SyliusPayumBundle/Resources/config/app/config.yaml" }
-
     - { resource: "@SyliusAdminBundle/Resources/config/app/config.yml" }
-
     - { resource: "@SyliusShopBundle/Resources/config/app/config.yml" }
-
     - { resource: "@SyliusApiBundle/Resources/config/app/config.yaml" }
 
     - { resource: "@ThreeBRSSyliusSortingPlugin/config/config.yaml" }
@@ -17,3 +13,6 @@ parameters:
 sylius_shop:
     product_grid:
         include_all_descendants: true
+
+sylius_api:
+    enabled: true
