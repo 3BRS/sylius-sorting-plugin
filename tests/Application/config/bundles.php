@@ -57,11 +57,7 @@ $bundles = [
     Symfony\UX\Autocomplete\AutocompleteBundle::class => ['all' => true],
     Symfony\UX\StimulusBundle\StimulusBundle::class => ['all' => true],
     Sylius\Abstraction\StateMachine\SyliusStateMachineAbstractionBundle::class => ['all' => true],
-    Acme\SyliusExamplePlugin\AcmeSyliusExamplePlugin::class => ['all' => true],
+    ThreeBRS\SortingPlugin\ThreeBRSSyliusSortingPlugin::class => ['all' => true],
 ];
-
-if (class_exists(winzou\Bundle\StateMachineBundle\winzouStateMachineBundle::class)) {
-    $bundles[winzou\Bundle\StateMachineBundle\winzouStateMachineBundle::class] = ['all' => true];
-}
 
 return $bundles;

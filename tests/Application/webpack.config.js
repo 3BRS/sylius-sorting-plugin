@@ -15,6 +15,7 @@ Encore
     .setOutputPath('public/build/app/shop')
     .setPublicPath('/build/app/shop')
     .addEntry('app-shop-entry', './assets/shop/entrypoint.js')
+    .addEntry('threebrs-sorting-admin', path.resolve(__dirname, '../../src/Resources/assets/admin/sorting-entry.js'))
     .disableSingleRuntimeChunk()
     .cleanupOutputBeforeBuild()
     .enableSourceMaps(!Encore.isProduction())

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Tests\Acme\SyliusExamplePlugin\Application\Kernel;
+use Tests\ThreeBRS\SortingPlugin\Kernel;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -15,7 +15,10 @@ if ($_SERVER['APP_DEBUG']) {
 }
 
 if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? $_ENV['TRUSTED_PROXIES'] ?? false) {
-    Request::setTrustedProxies(explode(',', $trustedProxies), Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST);
+    Request::setTrustedProxies(
+        explode(',', $trustedProxies),
+        Request::HEADER_X_FORWARDED_TRAEFIK ^ Request::HEADER_X_FORWARDED_HOST
+    );
 }
 
 if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? $_ENV['TRUSTED_HOSTS'] ?? false) {
