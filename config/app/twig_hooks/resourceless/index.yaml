@@ -34,20 +34,7 @@ sylius_twig_hooks:
             footer:
                 template: '@SyliusAdmin/shared/crud/common/content/footer.html.twig'
                 priority: -100
-            #custom_content:
-                #template: '@ThreeBRSSyliusSortingPlugin/custom_content.html.twig'
-                #priority: 100   
-
-        #'sylius_admin.resourceless.index.content.custom_content':
-            #taxon_tree:
-                #component: 'sylius_admin:taxon:tree'
-                #props:
-                    #template: '@SyliusAdmin/taxon/sections/tree.html.twig'
-                #priority: 0
-                #template: '@ThreeBRSSyliusSortingPlugin/as.html.twig'
-                #priority: 0
                 
-
         'sylius_admin.resourceless.index.content.header':
             breadcrumbs:
                 template: '@SyliusAdmin/shared/crud/index/content/header/breadcrumbs.html.twig'
@@ -68,8 +55,4 @@ sylius_twig_hooks:
             sorting_content:
                 template: '@ThreeBRSSyliusSortingPlugin/admin/sorting_content.html.twig'
                 priority: 0
-            #tree:
-                #component: 'sylius_admin:taxon:tree'
-                #props:
-                    #template: '@SyliusAdmin/taxon/sections/tree.html.twig'
-                #priority: 0
+        

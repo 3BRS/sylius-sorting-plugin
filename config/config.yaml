@@ -1,0 +1,2 @@
+imports:
+    - { resource: "@ThreeBRSSyliusSortingPlugin/config/app/twig_hooks/resourceless/*.yaml" }

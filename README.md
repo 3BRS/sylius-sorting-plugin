@@ -23,10 +23,9 @@ Sorting Plugin
   * Well-arranged overview of all products in the taxon
   * Disabled products greyed out
   * Direct links into product details
-  * Optionally hidden taxon tree to get even more space
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/3BRS/sylius-sorting-plugin/master/doc/sorting.png"/>
+	<img src="https://github.com/3BRS/sylius-sorting-plugin/blob/sylius_2_upgrade_AK/doc/sorting.png?raw=true"/>
 </p>
 
 ## Installation
