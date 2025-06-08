@@ -23,21 +23,21 @@ Sorting Plugin
   * Well-arranged overview of all products in the taxon
   * Disabled products greyed out
   * Direct links into product details
-  * Optionally hidden taxon tree to get even more space
 
 <p align="center">
-	<img src="https://raw.githubusercontent.com/3BRS/sylius-sorting-plugin/master/doc/sorting.png"/>
+	<img src="https://github.com/3BRS/sylius-sorting-plugin/blob/sylius_2_upgrade_AK/doc/sorting.png?raw=true"/>
 </p>
 
 ## Installation
 
 1. Run `$ composer require 3brs/sylius-sorting-plugin`.
 2. Register `\ThreeBRS\SortingPlugin\ThreeBRSSyliusSortingPlugin` in your Kernel.
-3. Import `@ThreeBRSSyliusSortingPlugin/Resources/config/routing.yml` in the routing.yml.
+3. Import `@ThreeBRSSyliusSortingPlugin/config/routing.yml` in the routing.yml.
 	```yaml
 	threebrs_sorting:
-	    resource: "@ThreeBRSSyliusSortingPlugin/Resources/config/routing.yml"
-	    prefix: /admin
+    resource: "@ThreeBRSSyliusSortingPlugin/config/routing.yml"
+    prefix: /admin
+
 	```
 
 ## Usage

@@ -1,0 +1,10 @@
+{% extends '@ThreeBRSSyliusSortingPlugin/AdminDefaultLayout/resourceless.html.twig' %}
+
+
+{% block title %}{{ 'threebrs.ui.sortingPlugin.menuTitle'|trans }} {% endblock %}
+
+
+{% block body %} 
+{% hook 'sylius_admin.resourceless.index' %}
+
+{% endblock %}
