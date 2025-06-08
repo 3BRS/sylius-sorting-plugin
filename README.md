@@ -32,11 +32,12 @@ Sorting Plugin
 
 1. Run `$ composer require 3brs/sylius-sorting-plugin`.
 2. Register `\ThreeBRS\SortingPlugin\ThreeBRSSyliusSortingPlugin` in your Kernel.
-3. Import `@ThreeBRSSyliusSortingPlugin/Resources/config/routing.yml` in the routing.yml.
+3. Import `@ThreeBRSSyliusSortingPlugin/config/routing.yml` in the routing.yml.
 	```yaml
 	threebrs_sorting:
-	    resource: "@ThreeBRSSyliusSortingPlugin/Resources/config/routing.yml"
-	    prefix: /admin
+    resource: "@ThreeBRSSyliusSortingPlugin/config/routing.yml"
+    prefix: /admin
+
 	```
 
 ## Usage
