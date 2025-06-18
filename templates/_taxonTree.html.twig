@@ -1,34 +1,76 @@
-{% import _self as tree %}
+{# {% import _self as tree %}
 
 {% macro render(taxons, depth = 0) %}
-    {% import _self as tree %}
+	{% import _self as tree %}
 
-    <ul class="tree-level ps-{{ depth > 0 ? 3 : 0 }}">
-        {% for taxon in taxons %}
-            <li class="tree-node" data-id="{{ taxon.id }}" {% if taxon.children is not empty %}data-sylius-js-tree-parent="{{ taxon.id }}"{% endif %}>
-                <div class="d-flex align-items-center tree-item py-1">
-                    <span class="tree-icon me-2" {% if taxon.children is not empty %}data-sylius-js-tree-trigger="{{ taxon.id }}"{% endif %}>
-                        {% if taxon.children is not empty %}
-                            {{ ux_icon('chevron-down') }}
-                        {% else %}
-                            {{ ux_icon('chevron-right') }}
-                        {% endif %}
-                    </span>
-                    <a class="tree-link text-decoration-none text-dark small" href="{{ path('threebrs_admin_sorting_products', {'taxonId': taxon.id}) }}">
-                        {{ taxon.name }}
-                    </a>
-                </div>
-                {% if taxon.children is not empty %}
-                    {{ tree.render(taxon.children, depth + 1) }}
-                {% endif %}
-            </li>
-        {% endfor %}
-    </ul>
+	<ul class="tree-level ps-{{ depth > 0 ? 3 : 0 }}">
+		{% for taxon in taxons %}
+			<li class="tree-node" data-id="{{ taxon.id }}" {% if taxon.children is not empty %} data-sylius-js-tree-parent="{{ taxon.id }}" {% endif %}>
+				<div class="d-flex align-items-center tree-item py-1">
+					<span class="tree-icon me-2" {% if taxon.children is not empty %} data-sylius-js-tree-trigger="{{ taxon.id }}" {% endif %}>
+						{% if taxon.children is not empty %}
+							{{ ux_icon('chevron-down') }}
+						{% else %}
+							{{ ux_icon('chevron-right') }}
+						{% endif %}
+					</span>
+					<a class="tree-link text-decoration-none text-dark small" href="{{ path('threebrs_admin_sorting_products', {'taxonId': taxon.id}) }}">
+						{{ taxon.name }}
+					</a>
+				</div>
+				{% if taxon.children is not empty %}
+					{{ tree.render(taxon.children, depth + 1) }}
+				{% endif %}
+			</li>
+		{% endfor %}
+	</ul>
 {% endmacro %}
 
 <div class="bg-light p-3 rounded shadow-sm">
-    <a href="#" class="text-primary fw-bold small d-block mb-2" data-sylius-js-tree-trigger>
-        {{ 'sylius.ui.toggle_all'|trans }}
-    </a>
-    {{ tree.render(this.tree) }}
+	<a href="#" class="text-primary fw-bold small d-block mb-2" data-sylius-js-tree-trigger>
+		{{ 'sylius.ui.toggle_all'|trans }}
+	</a>
+	{{ tree.render(this.tree) }}
+</div>
+ #}
+
+<style>
+	ul ul {
+		display: block !important;
+	}
+</style>
+
+
+{% import _self as tree %}
+
+{% macro render(taxons) %}
+	{% import _self as tree %}
+
+	<ul class="list-group ms-3">
+		{% for taxon in taxons %}
+			<li class="list-group-item p-2" data-id="{{ taxon.id }}" {% if taxon.children is not empty %} data-sylius-js-tree-parent="{{ taxon.id }}" {% endif %}>
+				<div class="d-flex align-items-center">
+					<div class="me-2" {% if taxon.children is not empty %} data-sylius-js-tree-trigger="{{ taxon.id }}" {% endif %}>
+						<i class="bi {{ taxon.children is not empty ? 'bi-caret-down-fill' : 'bi-chevron-right' }}"></i>
+					</div>
+					<div>
+						<a href="{{ path('threebrs_admin_sorting_products', {'taxonId': taxon.id}) }}">
+							{{ taxon.name }}
+						</a>
+					</div>
+				</div>
+				{{ tree.render(taxon.children) }}
+			</li>
+		{% endfor %}
+	</ul>
+{% endmacro %}
+
+<div
+	class="card p-3 sylius-tree" data-sylius-js-tree>
+	{# ADD d-none  above after you fix stimulus controller#}
+	<a href="#" class="mb-2 d-inline-block" data-sylius-js-tree-trigger>
+		<i class="bi bi-arrows-collapse"></i>
+		{{ 'sylius.ui.toggle_all'|trans }}
+	</a>
+	{{ tree.render(this.tree) }}
 </div>
