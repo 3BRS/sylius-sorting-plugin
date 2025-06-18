@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## V2.0.0 (2025-06-07)
+
+- Support for Sylius 2.0
+- Drop support for Sylius < 2.0
+
+
 ## V1.5.0 (2025-03-19)
 
 - Support for Sylius 1.14
