@@ -1,58 +1,57 @@
 sylius_twig_hooks:
     hooks:
-        'sylius_admin.base#stylesheets':
+        "sylius_admin.base#stylesheets":
             custom_sorting_styles:
-                template: '@ThreeBRSSyliusSortingPlugin/admin/shared/layout/styles/sorting_styles.html.twig'
+                template: "@ThreeBRSSyliusSortingPlugin/admin/shared/layout/styles/sorting_styles.html.twig"
                 priority: -50
 
-        'sylius_admin.base#javascripts':
+        "sylius_admin.base#javascripts":
             custom_sorting_scripts:
-                template: '@ThreeBRSSyliusSortingPlugin/admin/shared/layout/scripts/sorting_scripts.html.twig'
+                template: "@ThreeBRSSyliusSortingPlugin/admin/shared/layout/scripts/sorting_scripts.html.twig"
                 priority: -100
-                
-        'sylius_admin.resourceless.index':
+
+        "sylius_admin.resourceless.index":
             sidebar:
-                template: '@SyliusAdmin/shared/crud/common/sidebar.html.twig'
+                template: "@SyliusAdmin/shared/crud/common/sidebar.html.twig"
                 priority: 200
             navbar:
-                template: '@SyliusAdmin/shared/crud/common/navbar.html.twig'
+                template: "@SyliusAdmin/shared/crud/common/navbar.html.twig"
                 priority: 100
             content:
-                template: '@SyliusAdmin/shared/crud/common/content.html.twig'
+                template: "@SyliusAdmin/shared/crud/common/content.html.twig"
                 priority: 0
 
-        'sylius_admin.resourceless.index.content':
+        "sylius_admin.resourceless.index.content":
             flashes:
-                template: '@SyliusAdmin/shared/crud/common/content/flashes.html.twig'
+                template: "@SyliusAdmin/shared/crud/common/content/flashes.html.twig"
                 priority: 300
             header:
-                template: '@SyliusAdmin/shared/crud/common/content/header.html.twig'
+                template: "@SyliusAdmin/shared/crud/common/content/header.html.twig"
                 priority: 200
             custom:
-                template: '@ThreeBRSSyliusSortingPlugin/custom.html.twig'
+                template: "@ThreeBRSSyliusSortingPlugin/custom.html.twig"
                 priority: 100
             footer:
-                template: '@SyliusAdmin/shared/crud/common/content/footer.html.twig'
+                template: "@SyliusAdmin/shared/crud/common/content/footer.html.twig"
                 priority: -100
-                
-        'sylius_admin.resourceless.index.content.header':
+
+        "sylius_admin.resourceless.index.content.header":
             breadcrumbs:
-                template: '@SyliusAdmin/shared/crud/index/content/header/breadcrumbs.html.twig'
+                template: "@SyliusAdmin/shared/crud/index/content/header/breadcrumbs.html.twig"
                 priority: 100
             title_block:
-                template: '@SyliusAdmin/shared/crud/common/content/header/title_block.html.twig'
+                template: "@SyliusAdmin/shared/crud/common/content/header/title_block.html.twig"
                 priority: 0
 
-        'sylius_admin.resourceless.index.content.header.title_block':
+        "sylius_admin.resourceless.index.content.header.title_block":
             title:
-                template: '@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig'
+                template: "@SyliusAdmin/shared/crud/common/content/header/title_block/title.html.twig"
                 priority: 100
             actions:
-                template: '@SyliusAdmin/shared/crud/common/content/header/title_block/actions.html.twig'
+                template: "@SyliusAdmin/shared/crud/common/content/header/title_block/actions.html.twig"
                 priority: 0
 
-        'sylius_admin.resourceless.index.content.custom':
+        "sylius_admin.resourceless.index.content.custom":
             sorting_content:
-                template: '@ThreeBRSSyliusSortingPlugin/admin/sorting_content.html.twig'
+                template: "@ThreeBRSSyliusSortingPlugin/admin/sorting_content.html.twig"
                 priority: 0
-        
