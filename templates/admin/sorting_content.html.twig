@@ -34,12 +34,11 @@
 			</div>
 
 			<div class="col d-flex justify-content-end mt-3 mt-lg-0">
-				<div
-					class="btn-group">
-					{# <label for="sort-tree-toggler" class="btn btn-outline-secondary">
-					                        {{ ux_icon('bi:list-ul') }}
-					                        {{ 'threebrs.ui.sortingPlugin.toggleTaxons'|trans }}
-					                    </label> #}
+				<div class="btn-group">
+					<label for="sort-tree-toggler" class="btn btn-outline-secondary">
+						{{ ux_icon('bi:list-ul') }}
+						{{ 'threebrs.ui.sortingPlugin.toggleTaxons'|trans }}
+					</label>
 
 					{% set disableButton = taxon is not defined or (taxon is defined and productsTaxons|length == 0) %}
 					<button type="submit" class="btn btn-primary {% if disableButton %}disabled{% endif %}" {% if disableButton %} disabled {% endif %}>
@@ -57,10 +56,6 @@
 				{{ component('sylius_admin:taxon:tree', {
                     template: '@ThreeBRSSyliusSortingPlugin/_taxonTree.html.twig'
                 }) }}
-				{#  {{ component('sylius_admin:taxon:tree', {
-				                    template: '@SyliusAdmin/taxon/sections/tree.html.twig'
-				                }) }} #}
-
 			</div>
 
 			<div class="sortPage-products col-md-9 sylius-product-index">
@@ -75,11 +70,11 @@
 											{{ include('@ThreeBRSSyliusSortingPlugin/_mainImage.html.twig') }}
 											<h5 class="card-title">{{ product.name }}</h5>
 										</div>
-										<div class="card-footer p-2">
+										<div class="card-footer">
 											<a class="sortableItem-link" href="{{ path('sylius_admin_product_update', {'id': product.id}) }}" target="_blank">
-												{{ ux_icon('bi:box-arrow-up-right') }}
+												<i class="bi bi-box-arrow-up-right"></i>
 											</a>
-											<span class="text-muted small mx-2">{{ product.code }}</span>
+											<span class="text-muted small">{{ product.code }}</span>
 										</div>
 										<input type="hidden" name="id[]" value="{{ productTaxon.id }}">
 									</div>
