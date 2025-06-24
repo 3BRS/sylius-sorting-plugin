@@ -1,3 +1,4 @@
+import './sorting-plugin.css';
 import Sortable from 'sortablejs';
 
 

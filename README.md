@@ -19,10 +19,10 @@ Sorting Plugin
 
 ## Features
 
-* Sort products in taxons by simple drag and drop
-  * Well-arranged overview of all products in the taxon
-  * Disabled products greyed out
-  * Direct links into product details
+-   Sort products in taxons by simple drag and drop
+    -   Well-arranged overview of all products in the taxon
+    -   Disabled products greyed out
+    -   Direct links into product details
 
 <p align="center">
 	<img src="https://github.com/3BRS/sylius-sorting-plugin/blob/sylius_2_upgrade_AK/doc/sorting.png?raw=true"/>
@@ -33,28 +33,28 @@ Sorting Plugin
 1. Run `$ composer require 3brs/sylius-sorting-plugin`.
 2. Register `\ThreeBRS\SortingPlugin\ThreeBRSSyliusSortingPlugin` in your Kernel.
 3. Import `@ThreeBRSSyliusSortingPlugin/config/routing.yml` in the routing.yml.
-	```yaml
-	threebrs_sorting:
-    resource: "@ThreeBRSSyliusSortingPlugin/config/routing.yml"
-    prefix: /admin
 
-	```
+    ```yaml
+    threebrs_sorting:
+        resource: "@ThreeBRSSyliusSortingPlugin/config/routing.yml"
+        prefix: /admin
+    ```
 
 ## Usage
 
-* Log into admin panel
-* Click on `Sorting products` in the Catalog section in main menu
-* Select taxon
-* Drag and drop cards
-* Click `Save positions` button in the top right corner
+-   Log into admin panel
+-   Click on `Sorting products` in the Catalog section in main menu
+-   Select taxon
+-   Drag and drop cards
+-   Click `Save positions` button in the top right corner
 
 ## Development
 
 ### Usage
 
-- Create symlink from .env.dist to .env or create your own .env file
-- Develop your plugin in `/src`
-- See `bin/` for useful commands
+-   Create symlink from .env.dist to .env or create your own .env file
+-   Develop your plugin in `/src`
+-   See `bin/` for useful commands
 
 ### Testing
 
@@ -68,11 +68,11 @@ $ bin/phpstan.sh
 $ bin/ecs.sh
 ```
 
-License
--------
+## License
+
 This library is under the MIT license.
 
-Credits
--------
+## Credits
+
 Developed by [3BRS](https://3brs.com)<br>
 Forked from [manGoweb](https://github.com/mangoweb-sylius/SyliusSortingPlugin).
