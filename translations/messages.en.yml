@@ -1,6 +1,5 @@
 threebrs:
     ui:
-        sorting_plugin: "Sorting Products"
         sortingPlugin:
             header: Sorting products
             menuTitle: Sorting products

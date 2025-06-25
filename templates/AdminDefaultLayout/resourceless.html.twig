@@ -6,8 +6,8 @@
    Change it by passing 'title' when rendering the template. #}
 {% set metadata = metadata|default({
     applicationName: 'threebrs',
-    pluralName: 'sorting_plugin',
-    name: 'sorting_plugin',
+    pluralName: 'sortingPlugin.header',
+    name: '_empty',
 }) %}
 
 {% set configuration = configuration|default({
@@ -23,23 +23,23 @@
 {% set resource = null %}
 
 {# Block for title, using configuration title #}
-	{% block title %}
+{% block title %}
 	{{ configuration.title|trans }}
 	|
 {{ parent() }}
 {% endblock %}
 
-	{% block body %}
+{% block body %}
 {% hook 'sylius_admin.resourceless.index.content' %}
 {% endblock %}
 
 {# Block for stylesheets - delegates to hook #}
-	{% block stylesheets %}
+{% block stylesheets %}
 	{{ parent() }}
 {% hook 'sylius_admin.base#stylesheets' %}
 {% endblock %}
 
 {# Block for javascripts - delegates to hook #}
-	{% block javascripts %}
+{% block javascripts %}
 	{{ parent() }}
 {% hook 'sylius_admin.base#javascripts' %}{% endblock %}
