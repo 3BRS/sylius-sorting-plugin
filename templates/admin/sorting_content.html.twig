@@ -50,12 +50,11 @@
 		</div>
 
 		<div class="sortPage">
-			<input type="checkbox" class="sortPage-toggler" id="sort-tree-toggler" hidden>
-
+			<input type="checkbox" checked="checked" class="sortPage-toggler" id="sort-tree-toggler">
 			<div class="sortPage-tree">
 				{{ component('sylius_admin:taxon:tree', {
-                    template: '@ThreeBRSSyliusSortingPlugin/_taxonTree.html.twig'
-                }) }}
+					template: '@ThreeBRSSyliusSortingPlugin/_taxonTree.html.twig'
+				}) }}
 			</div>
 
 			<div class="sortPage-products col-md-9 sylius-product-index">
