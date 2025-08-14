@@ -1,0 +1,18 @@
+{% extends '@SyliusAdmin/shared/layout/base.html.twig' %}
+
+{% block title %}
+    {{ 'threebrs.ui.sortingPlugin.menuTitle'|trans }}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    {% set prefixes = [
+        'app_admin.sorting_plugin.index',
+        'sylius_admin.common.index'
+    ] %}
+
+    {% hook prefixes with {
+        taxon: taxon|default(null),
+        productsTaxons: productsTaxons|default([]),
+    } %}
+{% endblock body %}

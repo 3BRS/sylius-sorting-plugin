@@ -1,0 +1,63 @@
+sylius_twig_hooks:
+    hooks:
+        # Global stylesheets and scripts for the sorting plugin
+        'sylius_admin.base#stylesheets':
+            custom_sorting_styles:
+                template: '@ThreeBRSSyliusSortingPlugin/admin/shared/layout/styles/sorting_styles.html.twig'
+                priority: -50
+
+        'sylius_admin.base#javascripts':
+            custom_sorting_scripts:
+                template: '@ThreeBRSSyliusSortingPlugin/admin/shared/layout/scripts/sorting_scripts.html.twig'
+                priority: -100
+
+        # Main sorting plugin page structure
+        'app_admin.sorting_plugin.index':
+            sidebar:
+                template: '@SyliusAdmin/shared/crud/common/sidebar.html.twig'
+                priority: 200
+            # Disable navbar to prevent conflicts with main Sylius admin navbar
+            navbar:
+                enabled: false
+            content:
+                template: '@SyliusAdmin/shared/crud/common/content.html.twig'
+                priority: 0
+
+        'app_admin.sorting_plugin.index.content':
+            flashes:
+                template: '@SyliusAdmin/shared/crud/common/content/flashes.html.twig'
+                priority: 300
+            header:
+                template: '@SyliusAdmin/shared/crud/common/content/header.html.twig'
+                priority: 200
+            sections:
+                template: '@ThreeBRSSyliusSortingPlugin/admin/twig_hooks/sorting_plugin/index/content/sections.html.twig'
+                priority: 100
+            footer:
+                template: '@SyliusAdmin/shared/crud/common/content/footer.html.twig'
+                priority: -100
+            # Disable grid component to avoid "resources" property error
+            grid:
+                enabled: false
+
+        'app_admin.sorting_plugin.index.content.header':
+            breadcrumbs:
+                template: '@ThreeBRSSyliusSortingPlugin/admin/twig_hooks/sorting_plugin/index/content/header/breadcrumbs.html.twig'
+                priority: 100
+            title_block:
+                template: '@SyliusAdmin/shared/crud/common/content/header/title_block.html.twig'
+                priority: 0
+
+        'app_admin.sorting_plugin.index.content.header.title_block':
+            title:
+                template: '@ThreeBRSSyliusSortingPlugin/admin/twig_hooks/sorting_plugin/index/content/header/title_block/title.html.twig'
+                priority: 100
+            actions:
+                template: '@ThreeBRSSyliusSortingPlugin/admin/twig_hooks/sorting_plugin/index/content/header/title_block/actions.html.twig'
+                priority: 0
+
+        'app_admin.sorting_plugin.index.content.sections':
+            sorting_content:
+                template: '@ThreeBRSSyliusSortingPlugin/admin/twig_hooks/sorting_plugin/index/content/sections/sorting_content.html.twig'
+                priority: 0
+

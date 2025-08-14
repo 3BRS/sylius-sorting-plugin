@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\ThreeBRS\SortingPlugin;
 
+use Generator;
 use PSS\SymfonyMockerContainer\DependencyInjection\MockerContainer;
-use Sylius\Bundle\CoreBundle\Application\Kernel as SyliusKernel;
+use Sylius\Bundle\CoreBundle\SyliusCoreBundle;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -20,8 +21,10 @@ final class Kernel extends BaseKernel
 
     private const CONFIG_EXTS = '.{php,xml,yaml,yml}';
 
-    public function __construct(string $environment, bool $debug)
-    {
+    public function __construct(
+        string $environment,
+        bool $debug,
+    ) {
         parent::__construct($environment, $debug);
     }
 
@@ -46,6 +49,11 @@ final class Kernel extends BaseKernel
         }
     }
 
+    /**
+     * @see          \Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait::loadRoutes
+     *
+     * @noinspection PhpUnused
+     */
     protected function configureRoutes(RoutingConfigurator $routes): void
     {
         foreach ($this->getConfigurationDirectories() as $confDir) {
@@ -53,8 +61,15 @@ final class Kernel extends BaseKernel
         }
     }
 
-    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
-    {
+    /**
+     * @see          \Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait::registerContainerConfiguration
+     *
+     * @noinspection PhpUnused
+     */
+    protected function configureContainer(
+        ContainerBuilder $container,
+        LoaderInterface $loader,
+    ): void {
         foreach ($this->getConfigurationDirectories() as $confDir) {
             $bundlesFile = $confDir . '/bundles.php';
             if (false === is_file($bundlesFile)) {
@@ -84,16 +99,20 @@ final class Kernel extends BaseKernel
         return str_starts_with($this->getEnvironment(), 'test');
     }
 
-    private function loadContainerConfiguration(LoaderInterface $loader, string $confDir): void
-    {
+    private function loadContainerConfiguration(
+        LoaderInterface $loader,
+        string $confDir,
+    ): void {
         $loader->load($confDir . '/{packages}/*' . self::CONFIG_EXTS, 'glob');
         $loader->load($confDir . '/{packages}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, 'glob');
         $loader->load($confDir . '/{services}' . self::CONFIG_EXTS, 'glob');
         $loader->load($confDir . '/{services}_' . $this->environment . self::CONFIG_EXTS, 'glob');
     }
 
-    private function loadRoutesConfiguration(RoutingConfigurator $routes, string $confDir): void
-    {
+    private function loadRoutesConfiguration(
+        RoutingConfigurator $routes,
+        string $confDir,
+    ): void {
         $routes->import($confDir . '/{routes}/*' . self::CONFIG_EXTS);
         $routes->import($confDir . '/{routes}/' . $this->environment . '/**/*' . self::CONFIG_EXTS);
         $routes->import($confDir . '/{routes}' . self::CONFIG_EXTS);
@@ -113,28 +132,28 @@ final class Kernel extends BaseKernel
     }
 
     /**
-     * @return \Generator<string>
+     * @return Generator<string>
      */
     private function getConfigurationDirectories(): iterable
     {
         yield $this->getProjectDir() . '/config';
 
-        $syliusConfigDir = $this->getProjectDir() . '/config/sylius/' . SyliusKernel::MAJOR_VERSION . '.' . SyliusKernel::MINOR_VERSION;
+        $syliusConfigDir = $this->getProjectDir() . '/config/sylius/' . SyliusCoreBundle::MAJOR_VERSION . '.' . SyliusCoreBundle::MINOR_VERSION;
         if (is_dir($syliusConfigDir)) {
             yield $syliusConfigDir;
         }
 
-        $syliusVersionPlusConfigDir = $this->getProjectDir() . '/config/sylius/' . SyliusKernel::MAJOR_VERSION . '+';
+        $syliusVersionPlusConfigDir = $this->getProjectDir() . '/config/sylius/' . SyliusCoreBundle::MAJOR_VERSION . '+';
         if (is_dir($syliusVersionPlusConfigDir)) {
             yield $syliusVersionPlusConfigDir;
         }
 
-        $symfonyConfigDir = $this->getProjectDir() . '/config/symfony/' . BaseKernel::MAJOR_VERSION . '.' . BaseKernel::MINOR_VERSION;
+        $symfonyConfigDir = $this->getProjectDir() . '/config/symfony/' . SyliusCoreBundle::MAJOR_VERSION . '.' . SyliusCoreBundle::MINOR_VERSION;
         if (is_dir($symfonyConfigDir)) {
             yield $symfonyConfigDir;
         }
 
-        $symfonyVersionPlusConfigDir = $this->getProjectDir() . '/config/symfony/' . BaseKernel::MAJOR_VERSION . '+';
+        $symfonyVersionPlusConfigDir = $this->getProjectDir() . '/config/symfony/' . SyliusCoreBundle::MAJOR_VERSION . '+';
         if (is_dir($symfonyVersionPlusConfigDir)) {
             yield $symfonyVersionPlusConfigDir;
         }

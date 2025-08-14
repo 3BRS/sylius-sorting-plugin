@@ -1,0 +1,22 @@
+{% set taxon = hookable_metadata.context.taxon|default(null) %}
+{% set productsTaxons = hookable_metadata.context.productsTaxons %}
+
+<div class="btn-group">
+    <label for="sort-tree-taxon-toggler" class="btn btn-outline-secondary">
+        {{ ux_icon('bi:list-ul') }}
+        {{ 'threebrs.ui.sortingPlugin.toggleTaxons'|trans }}
+    </label>
+
+    <label for="sort-tree-image-toggler" class="btn btn-outline-secondary">
+        {{ ux_icon('bi:image') }}
+        {{ 'threebrs.ui.sortingPlugin.toggleImages'|trans }}
+    </label>
+
+    {% set disableButton = taxon is null or (taxon is not null and productsTaxons|length == 0) %}
+    <button type="submit" form="sorting-form"
+        class="btn btn-primary {% if disableButton %}disabled{% endif %}"
+        {% if disableButton %}disabled{% endif %}>
+        {{ ux_icon('bi:check2') }}
+        {{ 'sylius.ui.save_positions'|trans }}
+    </button>
+</div>
