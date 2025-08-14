@@ -1,7 +1,7 @@
 {
     "name": "3brs/sylius-sorting-plugin",
     "type": "sylius-plugin",
-    "keywords": ["sylius", "sylius-plugin"],
+    "keywords": ["sylius", "sylius-plugin", "sorting"],
     "description": "Sorting plugin for Sylius",
     "license": "MIT",
     "require": {
@@ -33,18 +33,20 @@
         "sylius-labs/coding-standard": "^v4.4.0",
         "symfony/browser-kit": "^v6.4|^v7.1",
         "symfony/debug-bundle": "^v6.4|^v7.1",
+        "symfony/doctrine-bridge": "^v6.4|^v7.1",
         "symfony/dotenv": "^v6.4|^v7.1",
         "symfony/flex": "^v2.5.0",
         "symfony/framework-bundle": "^v6.4|^v7.1",
         "symfony/http-foundation": "^v7.2.3",
         "symfony/http-kernel": "^v6.4|^v7.1",
         "symfony/intl": "^v6.4|^v7.1",
+        "symfony/property-info": "^v6.4|^v7.1",
         "symfony/web-profiler-bundle": "^v6.4|^v7.1",
-        "doctrine/annotations": "^2.0.2",
-		"symplify/easy-coding-standard": "^12.0",
+        "symplify/easy-coding-standard": "^12.0",
         "sylius/sylius-rector": "^v3.0.0"
     },
     "conflict": {
+        "api-platform/symfony": "<v4.1.0",
         "api-platform/core": "<2.7.13",
         "babdev/pagerfanta-bundle": "<3.6.1",
         "doctrine/collections": "<1.7.0",
@@ -85,7 +87,7 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "phpstan/extension-installer": true,
             "symfony/flex": false,
-            "php-http/discovery": false
+            "php-http/discovery": true
         }
     },
     "scripts": {

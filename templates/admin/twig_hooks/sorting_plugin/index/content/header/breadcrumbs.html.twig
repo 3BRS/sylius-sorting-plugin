@@ -1,0 +1,18 @@
+{% import '@SyliusAdmin/shared/helper/breadcrumbs.html.twig' as breadcrumb %}
+
+{% set taxon = hookable_metadata.context.taxon|default(null) %}
+
+{% if taxon is not null %}
+    {% set breadcrumbs = [
+        { name: 'sylius.ui.dashboard'|trans, url: path('sylius_admin_dashboard') },
+        { name: 'threebrs.ui.sortingPlugin.header'|trans, url: path('threebrs_admin_sorting_index') },
+        { name: taxon.name },
+    ] %}
+{% else %}
+    {% set breadcrumbs = [
+        { name: 'sylius.ui.dashboard'|trans, url: path('sylius_admin_dashboard') },
+        { name: 'threebrs.ui.sortingPlugin.header'|trans },
+    ] %}
+{% endif %}
+
+{{ breadcrumb.breadcrumbs(breadcrumbs) }}

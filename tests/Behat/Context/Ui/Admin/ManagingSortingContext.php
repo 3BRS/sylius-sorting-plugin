@@ -10,14 +10,13 @@ use Sylius\Behat\Service\NotificationCheckerInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
 use Tests\ThreeBRS\SortingPlugin\Behat\Pages\Admin\Sorting\SortingPageInterface;
 
-final class ManagingSortingContext implements Context
+final readonly class ManagingSortingContext implements Context
 {
     public function __construct(
         private SortingPageInterface $sortingPage,
         private NotificationCheckerInterface $notificationChecker,
-        private TaxonRepositoryInterface $taxonRepository
-    )
-    {
+        private TaxonRepositoryInterface $taxonRepository,
+    ) {
     }
 
     /**
@@ -44,7 +43,7 @@ final class ManagingSortingContext implements Context
     {
         $this->notificationChecker->checkNotification(
             'Success, products has been sorted.',
-            NotificationType::success()
+            NotificationType::success(),
         );
     }
 
@@ -54,7 +53,7 @@ final class ManagingSortingContext implements Context
      */
     public function iShouldSeeTheInStPosition($arg1)
     {
-        $this->sortingPage->getPosition($arg1, 1);
+        $this->sortingPage->checkProductOnPosition($arg1, 1);
     }
 
     /**
