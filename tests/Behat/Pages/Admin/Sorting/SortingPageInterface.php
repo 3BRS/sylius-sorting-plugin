@@ -10,7 +10,7 @@ interface SortingPageInterface extends SymfonyPageInterface
 {
     public function saveSorting(): void;
 
-    public function getPosition($arg1, int $int): void;
+    public function checkProductOnPosition($expectedProductName, int $onPosition): void;
 
     public function getState($arg1): void;
 }

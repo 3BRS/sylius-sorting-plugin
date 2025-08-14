@@ -23,7 +23,7 @@ Sorting Plugin
   * Well-arranged overview of all products in the taxon
   * Disabled products greyed out
   * Direct links into product details
-  * Optionally hidden taxon tree to get even more space
+  * Optionally hidden taxon tree and product images to get even more space
 
 <p align="center">
 	<img src="https://raw.githubusercontent.com/3BRS/sylius-sorting-plugin/master/doc/sorting.png"/>
@@ -31,15 +31,33 @@ Sorting Plugin
 
 ## Installation
 
-1. Run `$ composer require 3brs/sylius-sorting-plugin`.
-2. Register `\ThreeBRS\SortingPlugin\ThreeBRSSyliusSortingPlugin` in your Kernel.
-3. Import `@ThreeBRSSyliusSortingPlugin/Resources/config/routing.yml` in the routing.yml.
-	```yaml
-	threebrs_sorting:
-	    resource: "@ThreeBRSSyliusSortingPlugin/Resources/config/routing.yml"
-	    prefix: /admin
-	```
+1. Run `composer require 3brs/sylius-sorting-plugin`.
 
+2. Register plugin to your `config/bundles.php`:
+   ```php
+   return [
+       ...
+       ThreeBRS\SortingPlugin\ThreeBRSSyliusSortingPlugin::class => ['all' => true],
+   ];
+   ```
+
+3. Import plugin configuration in `config/packages/_sylius.yaml`:
+   ```yaml
+   imports:
+       - { resource: "@ThreeBRSSyliusSortingPlugin/config/config.yaml" }
+   ```
+
+4. Import routing configuration in `config/routes.yaml`:
+   ```yaml
+   threebrs_sorting:
+       resource: "@ThreeBRSSyliusSortingPlugin/config/routing.yaml"
+       prefix: '%sylius_admin.path_name%'
+   ```
+5. Import plugin JS in `webpack.config.js`
+    ```javascript
+    Encore
+       .addEntry('threebrs-sorting-admin', path.resolve(__dirname, 'vendor/3brs/sylius-sorting-plugin/assets/admin/js/sorting-plugin.js'))
+    ```
 ## Usage
 
 * Log into admin panel
@@ -61,11 +79,7 @@ Sorting Plugin
 After your changes you must ensure that the tests are still passing.
 
 ```bash
-$ composer install
-$ bin/console doctrine:schema:create -e test
-$ bin/behat
-$ bin/phpstan.sh
-$ bin/ecs.sh
+make ci
 ```
 
 License

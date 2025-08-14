@@ -1,0 +1,56 @@
+{% set taxon = hookable_metadata.context.taxon|default(null) %}
+{% set productsTaxons = hookable_metadata.context.productsTaxons %}
+
+<div class="sorting-wrapper">
+    <form id="sorting-form" method="post" action="{{ path('threebrs_admin_sorting_products_save') }}">
+        <div class="sortPage">
+            <input type="checkbox" checked class="sortPage-toggler" id="sort-tree-taxon-toggler">
+            <input type="checkbox" checked class="sortPage-toggler" id="sort-tree-image-toggler">
+
+            <div class="sortPage-tree">
+                {{ component('sylius_admin:taxon:tree', {
+                    template: '@ThreeBRSSyliusSortingPlugin/admin/tree/sorting_tree.html.twig',
+                }) }}
+            </div>
+
+            <div class="sortPage-products sylius-product-index">
+                {% if taxon is not null %}
+                    {% if productsTaxons|length > 0 %}
+                        <div id="sortableProducts" class="row g-3">
+                            {% for productTaxon in productsTaxons %}
+                                {% set product = productTaxon.product %}
+                                <div class="sortableItem col-md-6 col-lg-4">
+                                    <div class="card h-100">
+                                        <div class="card-body" style="{% if not product.enabled %}opacity: 0.5{% endif %}">
+                                            {{ include('@ThreeBRSSyliusSortingPlugin/_mainImage.html.twig') }}
+                                            <h5 class="card-title">{{ product.name }}</h5>
+                                            <p class="card-text mb-1">
+                                                <a class="sortableItem-link"
+                                                href="{{ path('sylius_admin_product_update', {'id': product.id}) }}"
+                                                target="_blank">
+                                                    <i class="bi bi-box-arrow-up-right"></i>
+                                                </a>
+                                                <span class="text-muted small">{{ product.code }}</span>
+                                            </p>
+                                        </div>
+                                        <input type="hidden" name="id[]" value="{{ productTaxon.id }}">
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info" data-test-sylius-flash-message="alert-info">
+                            <div class="fw-bold">Info</div>
+                            {{ 'threebrs.ui.sortingPlugin.noProducts'|trans }}
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="alert alert-info" data-test-sylius-flash-message="alert-info">
+                        <div class="fw-bold">Info</div>
+                        {{ 'threebrs.ui.sortingPlugin.chooseTaxon'|trans }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </form>
+</div>

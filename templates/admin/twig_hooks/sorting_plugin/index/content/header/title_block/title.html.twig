@@ -1,0 +1,14 @@
+{% set taxon = hookable_metadata.context.taxon|default(null) %}
+
+<h1 class="page-title">
+    {{ 'threebrs.ui.sortingPlugin.menuTitle'|trans }}
+    {% if taxon is not null %}
+        - {{ taxon.name }}
+    {% endif %}
+</h1>
+
+{% if taxon is null %}
+    <p class="text-muted">
+        {{ 'threebrs.ui.sortingPlugin.subHeader'|trans }}
+    </p>
+{% endif %}
