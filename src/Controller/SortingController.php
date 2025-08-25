@@ -76,9 +76,10 @@ class SortingController
         $i = 0;
         $taxon = null;
 
-        if ($request->request->has('id')) {
-            foreach ($request->request->all('id') as $id) {
-                $productTaxon = $this->productTaxonRepository->find($id);
+        $taxonIds = $request->request->all('id');
+        if ($taxonIds) {
+            foreach ($taxonIds as $taxonId) {
+                $productTaxon = $this->productTaxonRepository->find($taxonId);
                 assert($productTaxon instanceof ProductTaxonInterface);
                 $productTaxon->setPosition($i);
 
@@ -88,9 +89,8 @@ class SortingController
 
                 ++$i;
             }
+            $this->entityManager->flush();
         }
-
-        $this->entityManager->flush();
 
         if ($taxon !== null) {
             $message = $this->translator->trans('threebrs.ui.sortingPlugin.successMessage');
