@@ -24,13 +24,39 @@
 	display: none;
 }
 
-.sortPage-products{
+.sortPage-products {
 	width: 100%;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	padding: 0 10px;
+	container-type: inline-size;
+	align-content: flex-start;
 }
 
 .sortableItem {
 	cursor: move;
-	flex: 0 0 290px;
+	width: 100%;
+
+	@container (min-width: 600px) {
+		width: calc((100% - 10px) / 2);
+	}
+
+	@container (min-width: 900px) {
+		width: calc((100% - 20px) / 3);
+	}
+
+	@container (min-width: 1200px) {
+		width: calc((100% - 30px) / 4);
+	}
+
+	@container (min-width: 1500px) {
+		width: calc((100% - 40px) / 5);
+	}
+
+	@container (min-width: 1800px) {
+		width: calc((100% - 50px) / 6);
+	}
 }
 
 .sortableItem-placeholder {
@@ -40,6 +66,8 @@
 .sortableItem-image {
 	margin-bottom: 0 !important;
 	display: none;
+	max-width: 75px;
+	margin-left: 5px;
 }
 
 @media (min-width: 1200px) {
@@ -49,6 +77,5 @@
 
 	.sortPage-tree {
 		flex: 0 0 290px;
-		margin-right: 1em;
 	}
 }
