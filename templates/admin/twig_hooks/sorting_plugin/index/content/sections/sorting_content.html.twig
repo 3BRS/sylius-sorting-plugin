@@ -13,31 +13,29 @@
                 }) }}
             </div>
 
-            <div class="sortPage-products sylius-product-index">
+            <div class="sortPage-products sylius-product-index" id="sortableProducts">
                 {% if taxon is not null %}
                     {% if productsTaxons|length > 0 %}
-                        <div id="sortableProducts" class="row g-3">
-                            {% for productTaxon in productsTaxons %}
-                                {% set product = productTaxon.product %}
-                                <div class="sortableItem col-md-6 col-lg-4">
-                                    <div class="card h-100">
-                                        <div class="card-body" style="{% if not product.enabled %}opacity: 0.5{% endif %}">
-                                            {{ include('@ThreeBRSSyliusSortingPlugin/_mainImage.html.twig') }}
-                                            <h5 class="card-title">{{ product.name }}</h5>
-                                            <p class="card-text mb-1">
-                                                <a class="sortableItem-link"
-                                                href="{{ path('sylius_admin_product_update', {'id': product.id}) }}"
-                                                target="_blank">
-                                                    <i class="bi bi-box-arrow-up-right"></i>
-                                                </a>
-                                                <span class="text-muted small">{{ product.code }}</span>
-                                            </p>
-                                        </div>
-                                        <input type="hidden" name="id[]" value="{{ productTaxon.id }}">
+                        {% for productTaxon in productsTaxons %}
+                            {% set product = productTaxon.product %}
+                            <div class="sortableItem">
+                                <div class="card">
+                                    <div class="card-body" style="{% if not product.enabled %}opacity: 0.5{% endif %}">
+                                        {{ include('@ThreeBRSSyliusSortingPlugin/_mainImage.html.twig') }}
+                                        <h5 class="card-title">{{ product.name }}</h5>
+                                        <p class="card-text mb-1">
+                                            <a class="sortableItem-link"
+                                            href="{{ path('sylius_admin_product_update', {'id': product.id}) }}"
+                                            target="_blank">
+                                                <i class="bi bi-box-arrow-up-right"></i>
+                                            </a>
+                                            <span class="text-muted small">{{ product.code }}</span>
+                                        </p>
                                     </div>
+                                    <input type="hidden" name="id[]" value="{{ productTaxon.id }}">
                                 </div>
-                            {% endfor %}
-                        </div>
+                            </div>
+                        {% endfor %}
                     {% else %}
                         <div class="alert alert-info" data-test-sylius-flash-message="alert-info">
                             <div class="fw-bold">Info</div>
