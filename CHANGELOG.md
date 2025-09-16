@@ -3,12 +3,7 @@
 ## V2.0.0 (2025-06-07)
 
 - Support for Sylius 2.0
-- Drop support for Sylius < 2.0
-
-## V1.6.0 (2025-04-06)
-
-- Support for Sylius 2.0
-- Drop support for Sylius < 2.0
+- Drop support for Sylius 1
 
 ## V1.5.0 (2025-03-19)
 
