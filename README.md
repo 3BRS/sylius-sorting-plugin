@@ -58,6 +58,16 @@ Sorting Plugin
     Encore
        .addEntry('threebrs-sorting-admin', path.resolve(__dirname, 'vendor/3brs/sylius-sorting-plugin/assets/admin/js/sorting-plugin.js'))
     ```
+6. Require JavaScript library `sortablejs`:   
+    ```bash
+    yarn add sortablejs:^1.15.6
+    ```
+7. Rebuild assets:
+    ```bash
+    yarn install
+    yarn build
+    ```
+
 ## Usage
 
 * Log into admin panel
