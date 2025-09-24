@@ -55,16 +55,16 @@ Sorting Plugin
    ```
 5. Import plugin JS in `webpack.config.js`
     ```javascript
+    // App admin config
     Encore
        .addEntry('threebrs-sorting-admin', path.resolve(__dirname, 'vendor/3brs/sylius-sorting-plugin/assets/admin/js/sorting-plugin.js'))
     ```
 6. Require JavaScript library `sortablejs`:   
     ```bash
-    yarn add sortablejs:^1.15.6
+    yarn add sortablejs@1.15.6
     ```
 7. Rebuild assets:
     ```bash
-    yarn install
     yarn build
     ```
 
