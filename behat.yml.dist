@@ -4,6 +4,11 @@ imports:
 
 default:
     extensions:
+        FriendsOfBehat\MinkDebugExtension:
+            directory: behat
+            clean_start: false
+            screenshot: true
+
         Behat\MinkExtension:
             files_path: "%paths.base%/vendor/sylius/sylius/src/Sylius/Behat/Resources/fixtures/"
             base_url: "http://localhost:8080/"

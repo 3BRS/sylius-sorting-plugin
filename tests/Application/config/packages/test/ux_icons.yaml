@@ -1,0 +1,4 @@
+ux_icons:
+    iconify:
+        on_demand: false
+    ignore_not_found: true
