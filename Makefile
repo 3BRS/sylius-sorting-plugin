@@ -15,7 +15,7 @@ init:
 	@make var
 	./bin-docker/php ./bin/console doctrine:database:create --no-interaction --if-not-exists
 	./bin-docker/php ./bin/console doctrine:migrations:migrate --no-interaction
-	./bin-docker/php ./bin/console doctrine:schema:update --force --complete --no-interaction
+	./bin-docker/php ./bin/console doctrine:schema:update --force --no-interaction
 	./bin-docker/php ./bin/console doctrine:migration:sync-metadata-storage
 	./bin-docker/php ./bin/console assets:install
 	./bin-docker/yarn install --pure-lockfile # to get sortablejs
@@ -35,7 +35,7 @@ init-tests:
 	./bin-docker/php ./bin/console --env=test doctrine:database:drop --no-interaction --force --if-exists
 	./bin-docker/php ./bin/console --env=test doctrine:database:create --no-interaction
 	./bin-docker/php ./bin/console --env=test doctrine:migrations:migrate --no-interaction
-	./bin-docker/php ./bin/console --env=test doctrine:schema:update --force --complete --no-interaction
+	./bin-docker/php ./bin/console --env=test doctrine:schema:update --force --no-interaction
 	./bin-docker/php ./bin/console --env=test doctrine:migration:sync-metadata-storage
 	./bin-docker/php ./bin/console --env=test assets:install
 	./bin-docker/yarn install --pure-lockfile # to get sortablejs
@@ -87,7 +87,7 @@ schema-reset:
 	./bin-docker/php ./bin/console doctrine:database:drop --force --if-exists --no-interaction
 	./bin-docker/php ./bin/console doctrine:database:create --no-interaction
 	./bin-docker/php ./bin/console doctrine:migrations:migrate --no-interaction
-	./bin-docker/php ./bin/console doctrine:schema:update --force --complete --no-interaction
+	./bin-docker/php ./bin/console doctrine:schema:update --force --no-interaction
 	./bin-docker/php ./bin/console doctrine:migration:sync-metadata-storage
 
 fix:

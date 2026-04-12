@@ -1,0 +1,11 @@
+framework:
+    messenger:
+        transports:
+            main:
+                dsn: 'in-memory://'
+            main_failed:
+                dsn: 'in-memory://'
+            catalog_promotion_removal:
+                dsn: 'in-memory://'
+            catalog_promotion_removal_failed:
+                dsn: 'in-memory://'

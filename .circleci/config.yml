@@ -1,15 +1,15 @@
 version: 2.1
 
 workflows:
-    sylius2-php8.2+:
+    sylius2.1-2.2-php8.2+:
         jobs:
             -   build:
                     name: php-<<matrix.php_version>>-sylius-<<matrix.sylius_version>>-symfony-<<matrix.symfony_version>>
                     matrix:
                         parameters:
-                            sylius_version: [ "2.0" ]
+                            sylius_version: [ "2.1", "2.2" ]
                             php_version: [ "8.2", "8.3" ]
-                            symfony_version: [ "6.4", "7.1" ]
+                            symfony_version: [ "7.4" ]
 
 jobs:
     build:
@@ -42,42 +42,47 @@ jobs:
             -   run: apt-get install -y nodejs yarn mariadb-client netcat-openbsd
             -   run: composer self-update
 
+            # Sylius & Symfony in current matrix versions
             -   run: composer require "sylius/sylius:<< parameters.sylius_version >>.*" --no-interaction --no-update --no-scripts
-            -   run: grep -o -E '"(symfony/[^"]+)"' composer.json | grep -v -E '(symfony/flex|symfony/webpack-encore-bundle|symfony/debug-bundle|symfony/web-profiler-bundle)' | xargs printf '%s:<< parameters.symfony_version >>.* ' | xargs composer require --no-interaction --no-update
+            -   run: grep -o -E '"(symfony/[^"]+)"' composer.json | grep -v -E '(symfony/flex|symfony/webpack-encore-bundle|symfony/maker-bundle)' | xargs printf '%s:<< parameters.symfony_version >>.* ' | xargs composer require --no-interaction --no-update
 
             -   run:
                     name: Wait for database
                     command: timeout 60s bash -c -- 'while ! nc -z 127.0.0.1 3306; do sleep 0.1; done' && timeout 30s bash -c -- 'mysql --user=sylius --password=pass --host=127.0.0.1 --port=3306 -e "exit"'
 
-            # COMPOSER PREFER LOWEST (oldest possible) #
-            # has to delete vendor for next test with different libraries version to avoid Composer error 'Failed to extract...' if vendor dir cache does not exist
-            -   run: rm -fr vendor composer.lock
-            -   run: composer update --no-interaction --prefer-lowest --no-plugins
-            -   run: yarn install
-            -   run: yarn --cwd tests/Application install
-            -   run: yarn --cwd tests/Application build
-            -   run: php bin/console --env=test doctrine:database:create --no-interaction --if-not-exists
-            -   run: php bin/console --env=test doctrine:migrations:migrate --no-interaction
-            -   run: php bin/console --env=test doctrine:schema:update --complete --force --no-interaction
-            -   run: (cd tests/Application && bin/console cache:clear --env=test -vvv)
-            -   run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
-            -   run: APP_ENV=test bin/phpstan.sh
-            -   run: APP_ENV=test bin/ecs.sh --clear-cache
-            -   run: APP_ENV=test bin/symfony-lint.sh
-            -   run: APP_ENV=test php vendor/bin/behat || grep 'console.CRITICAL' tests/Application/var/log/test.log
-
             # COMPOSER PREFER DIST #
-            -   run: php bin/console --env=test doctrine:database:drop --force --if-exists --no-interaction
             -   run: composer update --no-interaction --prefer-dist --no-plugins
+            -   run: (cd tests/Application && bin/console assets:install --env=test -vvv)
             -   run: yarn install
             -   run: yarn --cwd tests/Application install
             -   run: yarn --cwd tests/Application build
             -   run: php bin/console --env=test doctrine:database:create --no-interaction --if-not-exists
             -   run: php bin/console --env=test doctrine:migrations:migrate --no-interaction
-            -   run: php bin/console --env=test doctrine:schema:update --complete --force --no-interaction
+            -   run: php bin/console --env=test doctrine:schema:update --force --no-interaction
             -   run: (cd tests/Application && bin/console cache:clear --env=test -vvv)
             -   run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
-            -   run: APP_ENV=test bin/phpstan.sh
-            -   run: APP_ENV=test bin/ecs.sh --clear-cache
-            -   run: APP_ENV=test bin/symfony-lint.sh
+            -   run: bin/phpstan.sh
+            -   run: bin/ecs.sh --clear-cache
+            -   run: bin/symfony-lint.sh
             -   run: APP_ENV=test php vendor/bin/behat
+            -   run: if [ -f tests/Application/var/log/test.log ]; then tail -n 50 tests/Application/var/log/test.log; fi
+
+            # COMPOSER PREFER LOWEST (oldest possible) #
+            -   run: rm -fr composer.lock
+            -   run: composer update --no-interaction --prefer-lowest --no-plugins
+            -   run: (cd tests/Application && bin/console assets:install --env=test -vvv)
+            -   run: yarn install
+            -   run: yarn --cwd tests/Application install
+            -   run: yarn --cwd tests/Application build
+            -   run: php bin/console --env=test doctrine:database:drop --force --if-exists --no-interaction
+            -   run: php bin/console --env=test doctrine:database:create --no-interaction
+            -   run: php bin/console --env=test doctrine:migrations:migrate --no-interaction
+            -   run: php bin/console --env=test doctrine:schema:update --force --no-interaction
+            -   run: rm -fr tests/Application/var/cache
+            -   run: (cd tests/Application && bin/console cache:clear --env=test -vvv)
+            -   run: (cd tests/Application && bin/console cache:warmup --env=test -vvv)
+            -   run: bin/phpstan.sh
+            -   run: bin/ecs.sh --clear-cache
+            -   run: bin/symfony-lint.sh
+            -   run: APP_ENV=test php vendor/bin/behat
+            -   run: if [ -f tests/Application/var/log/test.log ]; then tail -n 50 tests/Application/var/log/test.log; fi
