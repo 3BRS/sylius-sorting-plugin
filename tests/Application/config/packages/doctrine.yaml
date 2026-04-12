@@ -8,7 +8,9 @@ parameters:
 doctrine:
     dbal:
         driver: 'pdo_mysql'
-        server_version: '5.7'
+        server_version: '8.0.32'
         charset: UTF8
 
         url: '%env(resolve:DATABASE_URL)%'
+    orm:
+        enable_lazy_ghost_objects: true
