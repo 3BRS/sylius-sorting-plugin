@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## V2.1.2
+
+- Removed stale `behat/gherkin: 4.16.*` conflict that blocked installation alongside behat 3.30+.
+
 ## V2.1.1
 
 - Fixed sorting initialization when the bundle loads after DOMContentLoaded has already fired. Drag-and-drop now works reliably on large taxons.
