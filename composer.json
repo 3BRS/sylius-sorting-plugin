@@ -48,7 +48,6 @@
     },
     "conflict": {
         "api-platform/core": "<4.2.0",
-        "behat/gherkin": "4.16.*",
         "api-platform/json-schema": "<4.2.0",
         "api-platform/metadata": "<4.2.0",
         "api-platform/symfony": "<4.2.0",
