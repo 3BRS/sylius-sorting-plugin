@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## V2.1.1
+
+- Fixed sorting initialization when the bundle loads after DOMContentLoaded has already fired. Drag-and-drop now works reliably on large taxons.
+
 ## V2.1.0
 
 - Support for Sylius 2.1 and 2.2

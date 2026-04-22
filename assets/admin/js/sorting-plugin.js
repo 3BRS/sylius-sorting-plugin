@@ -1,7 +1,7 @@
 import Sortable from 'sortablejs';
 import '../css/sorting-plugin.css';
 
-document.addEventListener('DOMContentLoaded', () => {
+function initSortableContainer() {
   const sortableContainer = document.getElementById('sortableProducts');
 
   if (sortableContainer) {
@@ -15,4 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
-});
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSortableContainer);
+} else {
+  initSortableContainer();
+}
