@@ -26,3 +26,8 @@ Feature: Sort products and show disabled products
 	Scenario: Being able to see disable products
 		Given I open the "mens_jeans" taxon sorting page
 		Then I should see "Slim fit classic" disabled
+
+	@ui
+	Scenario: Sorting index page wires the Sylius admin taxon-tree Stimulus controller
+		When I open the sorting index page
+		Then the taxon tree should use the Sylius admin Stimulus controller
