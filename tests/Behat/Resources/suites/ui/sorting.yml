@@ -55,4 +55,4 @@ default:
                 - sylius.behat.context.ui.admin.notification
 
             filters:
-                tags: "@sorting && @ui"
+                tags: "@sorting&&@ui"
