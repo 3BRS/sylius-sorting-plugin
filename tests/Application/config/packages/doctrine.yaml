@@ -13,4 +13,3 @@ doctrine:
 
         url: '%env(resolve:DATABASE_URL)%'
     orm:
-        enable_lazy_ghost_objects: true

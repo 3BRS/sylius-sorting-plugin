@@ -1,7 +1,7 @@
 version: 2.1
 
 workflows:
-    sylius2.1-2.2-php8.2+:
+    sylius2.1-2.3-php8.2+:
         jobs:
             -   build:
                     name: php-<<matrix.php_version>>-sylius-<<matrix.sylius_version>>-symfony-<<matrix.symfony_version>>
@@ -10,6 +10,19 @@ workflows:
                             sylius_version: [ "2.1", "2.2" ]
                             php_version: [ "8.2", "8.3" ]
                             symfony_version: [ "7.4" ]
+
+            -   build:
+                    name: php-<<matrix.php_version>>-sylius-<<matrix.sylius_version>>-symfony-<<matrix.symfony_version>>
+                    matrix:
+                        parameters:
+                            sylius_version: [ "2.3" ]
+                            php_version: [ "8.3", "8.4" ]
+                            symfony_version: [ "7.4", "8.1" ]
+                        # Symfony 8 requires PHP 8.4
+                        exclude:
+                            -   sylius_version: "2.3"
+                                php_version: "8.3"
+                                symfony_version: "8.1"
 
 jobs:
     build:
@@ -24,6 +37,7 @@ jobs:
         docker:
             -   image: webdevops/php-nginx:<< parameters.php_version >>
                 environment:
+                    - SYMFONY_REQUIRE=<< parameters.symfony_version >>.*
                     - DATABASE_URL=mysql://root:pass_root@127.0.0.1:3306/3brs_sylius_sorting_plugin_%kernel.environment%?serverVersion=8.0
             -   image: cimg/mysql:8.0
                 environment:
@@ -36,7 +50,7 @@ jobs:
             # to avoid installing different package "Note, selecting 'cmdtest' instead of 'yarn'"
             -   run: curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
             -   run: echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-            -   run: curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+            -   run: curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
             -   run: apt-get update
                 # netcat to get 'nc' command for waiting for database
             -   run: apt-get install -y nodejs yarn mariadb-client netcat-openbsd
@@ -44,14 +58,25 @@ jobs:
 
             # Sylius & Symfony in current matrix versions
             -   run: composer require "sylius/sylius:<< parameters.sylius_version >>.*" --no-interaction --no-update --no-scripts
-            -   run: grep -o -E '"(symfony/[^"]+)"' composer.json | grep -v -E '(symfony/flex|symfony/webpack-encore-bundle|symfony/maker-bundle)' | xargs printf '%s:<< parameters.symfony_version >>.* ' | xargs composer require --no-interaction --no-update
+            # global Flex applies SYMFONY_REQUIRE to all symfony/* packages including transitive ones
+            -   run: composer global config --no-plugins allow-plugins.symfony/flex true
+            -   run: composer global require --no-progress --no-scripts --no-plugins symfony/flex
+            # Sylius 2.1 and 2.2 Behat contexts need Behat 3, their admin and shop assets Encore 5
+            -   when:
+                    condition:
+                        matches:
+                            pattern: "^2\\.[12]$"
+                            value: << parameters.sylius_version >>
+                    steps:
+                        -   run: composer require --dev "behat/behat:^3.34" --no-interaction --no-update --no-scripts
+                        -   run: cd tests/Application && npm pkg set "devDependencies.@symfony/webpack-encore=^5.0.1"
 
             -   run:
                     name: Wait for database
                     command: timeout 60s bash -c -- 'while ! nc -z 127.0.0.1 3306; do sleep 0.1; done' && timeout 30s bash -c -- 'mysql --user=sylius --password=pass --host=127.0.0.1 --port=3306 -e "exit"'
 
             # COMPOSER PREFER DIST #
-            -   run: composer update --no-interaction --prefer-dist --no-plugins
+            -   run: composer update --no-interaction --prefer-dist
             -   run: (cd tests/Application && bin/console assets:install --env=test -vvv)
             -   run: yarn install
             -   run: yarn --cwd tests/Application install
@@ -68,8 +93,8 @@ jobs:
             -   run: if [ -f tests/Application/var/log/test.log ]; then tail -n 50 tests/Application/var/log/test.log; fi
 
             # COMPOSER PREFER LOWEST (oldest possible) #
-            -   run: rm -fr composer.lock
-            -   run: composer update --no-interaction --prefer-lowest --no-plugins
+            -   run: rm -fr composer.lock vendor
+            -   run: composer update --no-interaction --prefer-lowest
             -   run: (cd tests/Application && bin/console assets:install --env=test -vvv)
             -   run: yarn install
             -   run: yarn --cwd tests/Application install

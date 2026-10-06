@@ -35,6 +35,7 @@ Sorting Plugin
 |---------|---------|
 | PHP | ^8.2 |
 | Sylius | ^2.1 |
+| Symfony | ^7.4 \|\| ^8.0 |
 
 > For Sylius 2.0 support, use version 2.0.x of this plugin.
 > For Sylius 1.x support, use version 1.x of this plugin.
