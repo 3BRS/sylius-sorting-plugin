@@ -60,7 +60,7 @@ use Symfony\UX\TwigComponent\TwigComponentBundle;
 use Symfony\WebpackEncoreBundle\WebpackEncoreBundle;
 use ThreeBRS\SortingPlugin\ThreeBRSSyliusSortingPlugin;
 
-return [
+$bundles = [
     FrameworkBundle::class => ['all' => true],
     MonologBundle::class => ['all' => true],
     SecurityBundle::class => ['all' => true],
@@ -88,7 +88,6 @@ return [
     SyliusCoreBundle::class => ['all' => true],
     SyliusResourceBundle::class => ['all' => true],
     SyliusGridBundle::class => ['all' => true],
-    KnpGaufretteBundle::class => ['all' => true],
     KnpMenuBundle::class => ['all' => true],
     LiipImagineBundle::class => ['all' => true],
     PayumBundle::class => ['all' => true],
@@ -119,3 +118,9 @@ return [
     SyliusStateMachineAbstractionBundle::class => ['all' => true],
     ThreeBRSSyliusSortingPlugin::class => ['all' => true],
 ];
+
+if (class_exists(KnpGaufretteBundle::class)) {
+    $bundles[KnpGaufretteBundle::class] = ['all' => true];
+}
+
+return $bundles;

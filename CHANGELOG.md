@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## V2.2.0
+
+- Support for Sylius 2.3 and Symfony 8
+
 ## V2.1.2
 
 - Removed stale `behat/gherkin: 4.16.*` conflict that blocked installation alongside behat 3.30+.
