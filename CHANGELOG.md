@@ -3,6 +3,7 @@
 ## V2.2.0
 
 - Support for Sylius 2.3 and Symfony 8
+- Conflict with `imagine/imagine <1.5.0`, which reports PHP 8.4 deprecations
 
 ## V2.1.2
 
