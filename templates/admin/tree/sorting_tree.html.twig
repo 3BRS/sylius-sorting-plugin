@@ -1,14 +1,12 @@
-{# Custom tree template for sorting plugin that includes navigation to sorting pages #}
+{# Rendered with \Sylius\Bundle\AdminBundle\Twig\Component\Taxon\TreeComponent; based on @SyliusAdmin/taxon/sections/tree.html.twig #}
 
-<div {{ attributes.defaults(stimulus_controller('taxon-tree', {autoOpen: true})) }} data-taxon-tree-tree-data-value="{{ this.tree|json_encode }}">
+{% import '@SyliusAdmin/shared/helper/loader.html.twig' as loader %}
+
+<div {{ attributes.defaults(stimulus_controller('@sylius/admin-bundle/taxon-tree', {autoOpen: true, treeData: this.tree|json_encode})) }}>
     <div class="card mb-5">
-        <div data-loading>
-            <div class="sylius-loader">
-                <img src="{{ asset('build/admin/images/loader.svg', 'admin') }}" alt="{{ 'sylius.ui.loading'|trans }}"/>
-            </div>
-        </div>
+        {{ loader.render() }}
         <div class="card-body">
-            <div class="d-none" data-taxon-tree-target="itemPrototyp">
+            <div class="d-none" {{ stimulus_target('@sylius/admin-bundle/taxon-tree', 'itemPrototyp') }}>
                 <div class="d-flex justify-content-between infinite-tree-item" {{ sylius_test_html_attribute('tree-taxon', '__TAXON_NAME__') }}>
                     <div class="infinite-tree-node">
                         <span class="infinite-tree-toggler" data-infinite-tree-toggler></span>
@@ -16,14 +14,13 @@
                     </div>
 
                     <div class="btn-group btn-group-sm">
-                        <a href="{{ path('threebrs_admin_sorting_products', {taxonId: '__TAXON_ID__'}) }}" class="btn btn-icon btn-sm" data-bs-toggle="tooltip" data-bs-title="{{ 'threebrs.ui.sortingPlugin.editProducts'|trans }}">
+                        <a href="{{ path('threebrs_admin_sorting_products', {taxonId: '__TAXON_ID__'}) }}" class="btn btn-icon btn-sm w-4" data-bs-toggle="tooltip" data-bs-title="{{ 'threebrs.ui.sortingPlugin.editProducts'|trans }}">
                             {{ ux_icon('tabler:arrows-sort') }}
                         </a>
                     </div>
-
                 </div>
             </div>
-            <div data-taxon-tree-target="tree" {{ sylius_test_html_attribute('tree-taxons') }}></div>
+            <div {{ stimulus_target('@sylius/admin-bundle/taxon-tree', 'tree') }} {{ sylius_test_html_attribute('tree-taxons') }}></div>
         </div>
     </div>
 </div>

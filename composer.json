@@ -6,7 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "sylius/sylius": "^2.1"
+        "sylius/sylius": "^2.1.7"
     },
     "require-dev": {
         "behat/behat": "^3.34 || ^4.0",
@@ -63,7 +63,7 @@
         "masterminds/html5": "<2.7.5",
         "payum/core": "<1.7.3",
         "sylius/resource-bundle": "<1.13.1",
-        "sylius/sylius": "<2.1.0",
+        "sylius/sylius": "<2.1.7",
         "sylius/twig-extra": ">=0.9.0 <0.9.1",
         "sylius/twig-hooks": ">=0.9.0 <0.9.1",
         "symfony/css-selector": "<4.4.24",
