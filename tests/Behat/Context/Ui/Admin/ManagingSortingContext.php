@@ -11,15 +11,39 @@ use Behat\Step\When;
 use Sylius\Behat\NotificationType;
 use Sylius\Behat\Service\NotificationCheckerInterface;
 use Sylius\Component\Taxonomy\Repository\TaxonRepositoryInterface;
+use Tests\ThreeBRS\SortingPlugin\Behat\Pages\Admin\Sorting\SortingIndexPageInterface;
 use Tests\ThreeBRS\SortingPlugin\Behat\Pages\Admin\Sorting\SortingPageInterface;
+use Webmozart\Assert\Assert;
 
 final readonly class ManagingSortingContext implements Context
 {
     public function __construct(
         private SortingPageInterface $sortingPage,
+        private SortingIndexPageInterface $sortingIndexPage,
         private NotificationCheckerInterface $notificationChecker,
         private TaxonRepositoryInterface $taxonRepository,
     ) {
+    }
+
+    #[When('I open the sorting page')]
+    public function iOpenTheSortingPage(): void
+    {
+        $this->sortingIndexPage->open();
+    }
+
+    #[Then('the taxon tree should use the Sylius admin taxon tree controller')]
+    public function theTaxonTreeShouldUseTheSyliusAdminTaxonTreeController(): void
+    {
+        Assert::true(
+            $this->sortingIndexPage->usesSyliusTaxonTreeController(),
+            'The taxon tree does not use the "@sylius/admin-bundle/taxon-tree" Stimulus controller.',
+        );
+    }
+
+    #[Then('the taxon tree should contain the :taxonName taxon')]
+    public function theTaxonTreeShouldContainTheTaxon(string $taxonName): void
+    {
+        Assert::inArray($taxonName, $this->sortingIndexPage->getTaxonTreeNames());
     }
 
     #[Given('I open the :arg1 taxon sorting page')]

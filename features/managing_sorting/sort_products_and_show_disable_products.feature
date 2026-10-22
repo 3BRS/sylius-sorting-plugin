@@ -26,3 +26,9 @@ Feature: Sort products and show disabled products
 	Scenario: Being able to see disable products
 		Given I open the "mens_jeans" taxon sorting page
 		Then I should see "Slim fit classic" disabled
+
+	@ui
+	Scenario: Seeing taxons in the taxon tree
+		When I open the sorting page
+		Then the taxon tree should use the Sylius admin taxon tree controller
+		And the taxon tree should contain the "mens_jeans" taxon

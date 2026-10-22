@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## V2.2.1
+
+- Fixed empty taxon tree on the sorting page, the tree uses the Sylius admin Stimulus controller `@sylius/admin-bundle/taxon-tree`
+- Fixed collapsed sort button in the taxon tree on Sylius 2.3
+- Tree loader uses the Sylius admin loader macro
+- Drop support for Sylius 2.1.0–2.1.6, the loader macro requires Sylius 2.1.7
+
 ## V2.2.0
 
 - Support for Sylius 2.3 and Symfony 8
